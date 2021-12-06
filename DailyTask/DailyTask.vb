@@ -61,23 +61,24 @@
         If _Weekdays Is Nothing Then _Weekdays = New Short() {1, 1, 1, 1, 1, 1, 1}
 
         Dim Times As String() = Time_.Split(":")
-        Dim Due As New DateTime(Date.Now.Year, Date.Now.Month, Date.Now.Day, Int(Times.GetValue(0)), Int(Times.GetValue(1)), 0)
+        Dim Due As New DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Int(Times.GetValue(0)), Int(Times.GetValue(1)), 0)
         If Done Is Nothing Then
-            If Date.Now > Due Then
+            If DateTime.Now > Due Then
                 Done = "x"
             Else
                 Done = "o"
             End If
         End If
-        If _NextDue = Nothing Then
+
+        If _NextDue = Nothing Or _NextDue.Year < 1900 Then
             _NextDue = Due
             GetNextDue()
         End If
     End Sub
 
     Public Sub GetNextDue()
-        If Date.Now > _NextDue Then
-            While Date.Now > _NextDue And _Weekdays.GetValue(Date.Now.DayOfWeek) = 0
+        If DateTime.Now > _NextDue OrElse _Weekdays.GetValue(DateTime.Now.DayOfWeek) = 0 Then
+            While DateTime.Now > _NextDue OrElse _Weekdays.GetValue(_NextDue.DayOfWeek) = 0
                 _NextDue = DateAdd(DateInterval.Day, 1, _NextDue)
             End While
         End If
@@ -85,7 +86,7 @@
     End Sub
 
     Public Sub Postpone()
-        While Date.Now > _NextDue
+        While DateTime.Now > _NextDue
             _NextDue = DateAdd(DateInterval.Minute, 5, _NextDue)
         End While
     End Sub

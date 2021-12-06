@@ -1,7 +1,8 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.ComponentModel
+Imports System.Text.RegularExpressions
 Public Class MainForm
     Private LastText As String = "00:00"
-    Private ListOfTasks As List(Of DailyTask)
+    Private ListOfTasks As New List(Of DailyTask)()
     Private Sub RadioButton_OnTheseDays_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_OnTheseDays.CheckedChanged
         If RadioButton_OnTheseDays.Checked Then RadioButton_EveryDay.Checked = False
         Change_Checkboxes(True)
@@ -93,16 +94,15 @@ Public Class MainForm
         End Select
         GoFurther += 1
 
-        Dim Times As String() = TextBox_Tasktime.Text.Split(":")
-        If Int(Times.GetValue(0)) > 24 Or Int(Times.GetValue(0)) < 0 Or Int(Times.GetValue(1)) > 59 Or Int(Times.GetValue(1)) < 0 Then
-            TextBox_Tasktime.Text = LastText
-            TextBox_Tasktime.SelectionStart = GoFurther
-            Exit Sub
-        End If
-
-        If TextBox_Tasktime.Text.StartsWith("24") Then TextBox_Tasktime.Text = "00" & TextBox_Tasktime.Text.Substring(2, 3)
-
         If Regex.IsMatch(TextBox_Tasktime.Text, "[0-2]{1}[0-9]{1}(:)[0-5]{1}[0-9]{1}", RegexOptions.None) Then
+            Dim Times As String() = TextBox_Tasktime.Text.Split(":")
+            If Int(Times.GetValue(0)) > 24 Or Int(Times.GetValue(0)) < 0 Or Int(Times.GetValue(1)) > 59 Or Int(Times.GetValue(1)) < 0 Then
+                TextBox_Tasktime.Text = LastText
+                TextBox_Tasktime.SelectionStart = GoFurther
+                Exit Sub
+            End If
+
+            If TextBox_Tasktime.Text.StartsWith("24") Then TextBox_Tasktime.Text = "00" & TextBox_Tasktime.Text.Substring(2, 3)
             LastText = TextBox_Tasktime.Text
         Else
             TextBox_Tasktime.Text = LastText
@@ -119,22 +119,25 @@ Public Class MainForm
         Dim TempID As Integer = GetRandomInt()
         Dim Contains As Boolean = True
 
-        While Contains
-            For Each TheItem In ListOfTasks
-                If TheItem.ID = TempID Then
-                    Contains = True
-                    TempID = GetRandomInt()
-                    Exit For
-                Else
-                    Contains = False
-                End If
-            Next
-        End While
+        If ListOfTasks.Count > 0 Then
+            While Contains
+                For Each TheItem In ListOfTasks
+                    If TheItem.ID = TempID Then
+                        Contains = True
+                        TempID = GetRandomInt()
+                        Exit For
+                    Else
+                        Contains = False
+                    End If
+                Next
+            End While
+        End If
 
         If RadioButton_EveryDay.Checked Then
             Dim NewTask As New DailyTask(TempID, TextBox_Taskdescription.Text, TextBox_Tasktime.Text)
             ListOfTasks.Add(NewTask)
-            BuildListviews()
+            BuildListview_AllTasks()
+            BuildListview_CurrentTasks()
             Exit Sub
         End If
         If RadioButton_OnTheseDays.Checked Then
@@ -142,22 +145,38 @@ Public Class MainForm
                                          New Short() {CheckBox_Su.Checked * -1, CheckBox_Mo.Checked * -1, CheckBox_Tue.Checked * -1,
                                          CheckBox_Wed.Checked * -1, CheckBox_Thu.Checked * -1, CheckBox_Fr.Checked * -1, CheckBox_Sat.Checked * -1})
             ListOfTasks.Add(NewTask)
-            BuildListviews()
+            BuildListview_AllTasks()
+            BuildListview_CurrentTasks()
         End If
     End Sub
 
-    Private Sub BuildListviews()
+    Private Sub BuildListview_AllTasks()
         ListView_AllTasks.Items.Clear()
-        ListView_CurrentTasks.Items.Clear()
 
         For Each TheItem In ListOfTasks
             With ListView_AllTasks.Items.Add(TheItem.Description)
-                .SubItems.Add(TheItem.NextDue.ToString("yyyy/MM/dd, HH:mm"))
+                .SubItems.Add(TheItem.NextDue.ToString("dd/MM/yyyy, HH:mm"))
                 .SubItems.Add(TheItem.ID)
             End With
+        Next
+    End Sub
 
-            If CheckBox_ShowExecutedTasks.Checked And TheItem.Done Then
-                'Abbruch in der Session wegen Kopffick
+    Private Sub BuildListview_CurrentTasks()
+        ListView_CurrentTasks.Items.Clear()
+
+        For Each TheItem In ListOfTasks
+            If TheItem.Done = "🗸" AndAlso CheckBox_ShowExecutedTasks.Checked = False Then
+                'Do nothing
+            Else
+                If CheckBox_ShowNotToday.Checked = False AndAlso Not (TheItem.NextDue.Year = DateTime.Now.Year AndAlso TheItem.NextDue.DayOfYear = DateTime.Now.DayOfYear) Then
+                    'Do nothing
+                Else
+                    With ListView_CurrentTasks.Items.Add(TheItem.Description)
+                        .SubItems.Add(TheItem.NextDue.ToString("dd/MM/yyyy, HH:mm"))
+                        .SubItems.Add(TheItem.Done)
+                        .SubItems.Add(TheItem.ID)
+                    End With
+                End If
             End If
         Next
     End Sub
@@ -169,4 +188,96 @@ Public Class MainForm
         Static Generator As New Random()
         Return Generator.Next(Integer.MinValue, Integer.MaxValue)
     End Function
+
+    Private Sub CheckBox_ShowNotToday_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_ShowNotToday.CheckedChanged
+        BuildListview_CurrentTasks()
+    End Sub
+
+    Private Sub CheckBox_ShowExecutedTasks_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_ShowExecutedTasks.CheckedChanged
+        BuildListview_CurrentTasks()
+    End Sub
+
+    Private Sub MarkAs(ID As Integer, TheValue As String)
+        For Each TheItem In ListOfTasks
+            If TheItem.ID = ID Then
+                TheItem.Done = TheValue
+                Exit For
+            End If
+        Next
+        BuildListview_CurrentTasks()
+        BuildListview_AllTasks()
+    End Sub
+
+    Private Sub DeleteTask(ID As Integer)
+        For Each TheItem In ListOfTasks
+            If TheItem.ID = ID Then
+                ListOfTasks.Remove(TheItem)
+                Exit For
+            End If
+        Next
+        BuildListview_CurrentTasks()
+        BuildListview_AllTasks()
+    End Sub
+
+    Private Sub MarkAsDoneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsDoneToolStripMenuItem.Click
+        MarkAs(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), "🗸")
+    End Sub
+
+    Private Sub MarkAsXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsXToolStripMenuItem.Click
+        MarkAs(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), "x")
+    End Sub
+
+    Private Sub MarkAsQMToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsQMToolStripMenuItem.Click
+        MarkAs(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), "?")
+    End Sub
+
+    Private Sub MarkAsUnfulfilledToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsUnfulfilledToolStripMenuItem.Click
+        MarkAs(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), "o")
+    End Sub
+
+    Private Sub EditTaskToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditTaskToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub DeleteTaskToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteTaskToolStripMenuItem.Click
+        If MessageBox.Show(Me, "Are you sure you want to delete the selected task?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+            DeleteTask(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text))
+        End If
+    End Sub
+
+    Private Sub LVCT_ContextMenuItemsEnabled(TheValue As Boolean)
+        MarkTaskToolStripMenuItem.Enabled = TheValue
+        MarkAsDoneToolStripMenuItem.Enabled = TheValue
+        MarkAsXToolStripMenuItem.Enabled = TheValue
+        MarkAsQMToolStripMenuItem.Enabled = TheValue
+        MarkAsUnfulfilledToolStripMenuItem.Enabled = TheValue
+        EditTaskToolStripMenuItem.Enabled = TheValue
+        DeleteTaskToolStripMenuItem.Enabled = TheValue
+    End Sub
+
+    Private Sub CheckContextMenuBasedOnSelectedTask(TheListView As ListView)
+        MarkAsDoneToolStripMenuItem.Checked = False
+        MarkAsXToolStripMenuItem.Checked = False
+        MarkAsQMToolStripMenuItem.Checked = False
+        MarkAsUnfulfilledToolStripMenuItem.Checked = False
+        Select Case TheListView.SelectedItems.Item(0).SubItems.Item(2).Text
+            Case "🗸"
+                MarkAsDoneToolStripMenuItem.Checked = True
+            Case "x"
+                MarkAsXToolStripMenuItem.Checked = True
+            Case "?"
+                MarkAsQMToolStripMenuItem.Checked = True
+            Case "o"
+                MarkAsUnfulfilledToolStripMenuItem.Checked = True
+        End Select
+    End Sub
+
+    Private Sub ContextMenuStrip_LVCT_Opening(sender As Object, e As CancelEventArgs) Handles ContextMenuStrip_LVCT.Opening
+        If ListView_CurrentTasks.SelectedItems.Count <= 0 Then
+            LVCT_ContextMenuItemsEnabled(False)
+        Else
+            LVCT_ContextMenuItemsEnabled(True)
+            CheckContextMenuBasedOnSelectedTask(ListView_CurrentTasks)
+        End If
+    End Sub
 End Class
