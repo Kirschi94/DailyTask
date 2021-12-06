@@ -73,52 +73,7 @@ Public Class MainForm
         Check_Checkboxes(CheckBox_Su)
     End Sub
 
-    Private Sub TextBox_Tasktime_TextChanged(sender As Object, e As EventArgs) Handles TextBox_Tasktime.TextChanged
-        ''[0-2]{1}[0-9]{1}(:)[0-5]{1}[0-9]{1}
-        ''Regex.IsMatch(TextBox_Tasktime.Text, "[0-2]{1}[0-9]{1}(:)[0-5]{1}[0-9]{1}", RegexOptions.None)
-        ''TextBox_Tasktime.Text = String.Format("00:00", TextBox_Tasktime.Text)
-        'If Not TextBox_Tasktime.Text.Contains(":") Then
-        '    TextBox_Tasktime.Text = LastText
-        '    Exit Sub
-        'End If
-        'Dim Zeiten As String() = TextBox_Tasktime.Text.Split(":")
-        'If Int(Zeiten.GetValue(0)) > 24 Or Int(Zeiten.GetValue(0)) < 0 Or Int(Zeiten.GetValue(1)) > 59 Or Int(Zeiten.GetValue(1)) < 0 Then
-        '    TextBox_Tasktime.Text = LastText
-        '    Exit Sub
-        'End If
-        ''TextBox_Tasktime.Text = Format(Zeiten.GetValue(0), "g") & ":" & Format(Zeiten.GetValue(1), "g")
-        'If Regex.IsMatch(TextBox_Tasktime.Text, "[0-2]{1}[0-9]{1}(:)[0-5]{1}[0-9]{1}", RegexOptions.None) Then
-        '    TextBox_Tasktime.Text = String.Format("{0}:{1}", Format(Zeiten.GetValue(0), "00"), Format(Zeiten.GetValue(1), "00"))
-        '    'TextBox_Tasktime.Text = Format(TextBox_Tasktime.Text, "00:00")
-        '    LastText = TextBox_Tasktime.Text
-        'End If
-    End Sub
-
     Private Sub TextBox_Tasktime_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox_Tasktime.KeyPress
-        '[0-2]{1}[0-9]{1}(:)[0-5]{1}[0-9]{1}
-        'Regex.IsMatch(TextBox_Tasktime.Text, "[0-2]{1}[0-9]{1}(:)[0-5]{1}[0-9]{1}", RegexOptions.None)
-        'TextBox_Tasktime.Text = String.Format("00:00", TextBox_Tasktime.Text)
-        'TextBox_Tasktime.SelectionStart
-        'If Not TextBox_Tasktime.Text.Contains(":") Then
-        '    'TextBox_Tasktime.Text = LastText
-        'Exit Sub
-        'End If
-        'Dim Zeiten As String() = TextBox_Tasktime.Text.Split(":")
-        'If Int(Zeiten.GetValue(0)) > 24 Or Int(Zeiten.GetValue(0)) < 0 Or Int(Zeiten.GetValue(1)) > 59 Or Int(Zeiten.GetValue(1)) < 0 Then
-        '    'TextBox_Tasktime.Text = LastText
-        '    Exit Sub
-        'End If
-        'TextBox_Tasktime.Text = Format(Zeiten.GetValue(0), "g") & ":" & Format(Zeiten.GetValue(1), "g")
-        'If Regex.IsMatch(TextBox_Tasktime.Text, "[0-2]{1}[0-9]{1}(:)[0-5]{1}[0-9]{1}", RegexOptions.None) Then
-        'TextBox_Tasktime.Text = String.Format("{0}:{1}", Format(Zeiten.GetValue(0), "00"), Format(Zeiten.GetValue(1), "00"))
-        'TextBox_Tasktime.Text = Format(TextBox_Tasktime.Text, "00:00")
-        'LastText = TextBox_Tasktime.Text
-        'End If
-
-        'MessageBox.Show(TextBox_Tasktime.SelectionStart)
-
-        'TextBox_Tasktime.SelectionLength = 0
-
         Dim GoFurther As Short = TextBox_Tasktime.SelectionStart
 
         Select Case TextBox_Tasktime.SelectionStart
