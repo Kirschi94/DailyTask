@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>DailyTask</RootNamespace>
-    <StartupObject>Sub Main</StartupObject>
+    <StartupObject>DailyTask.MainForm</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 

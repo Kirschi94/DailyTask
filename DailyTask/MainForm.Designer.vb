@@ -22,6 +22,7 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.ListView_CurrentTasks = New System.Windows.Forms.ListView()
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader()
@@ -51,6 +52,7 @@ Partial Class MainForm
         Me.ListView_AllTasks = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader()
+        Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
         Me.CreateNewTask.SuspendLayout()
@@ -152,6 +154,7 @@ Partial Class MainForm
         'Button_CreateTask
         '
         Me.Button_CreateTask.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.Button_CreateTask.Enabled = False
         Me.Button_CreateTask.Location = New System.Drawing.Point(10, 259)
         Me.Button_CreateTask.Name = "Button_CreateTask"
         Me.Button_CreateTask.Size = New System.Drawing.Size(94, 29)
@@ -229,6 +232,8 @@ Partial Class MainForm
         '
         Me.CheckBox_Mo.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.CheckBox_Mo.AutoSize = True
+        Me.CheckBox_Mo.Checked = True
+        Me.CheckBox_Mo.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox_Mo.Location = New System.Drawing.Point(10, 221)
         Me.CheckBox_Mo.Name = "CheckBox_Mo"
         Me.CheckBox_Mo.Size = New System.Drawing.Size(44, 19)
@@ -244,7 +249,6 @@ Partial Class MainForm
         Me.RadioButton_OnTheseDays.Name = "RadioButton_OnTheseDays"
         Me.RadioButton_OnTheseDays.Size = New System.Drawing.Size(102, 19)
         Me.RadioButton_OnTheseDays.TabIndex = 11
-        Me.RadioButton_OnTheseDays.TabStop = True
         Me.RadioButton_OnTheseDays.Text = "On these days:"
         Me.RadioButton_OnTheseDays.UseVisualStyleBackColor = True
         '
@@ -262,7 +266,7 @@ Partial Class MainForm
         '
         Me.TextBox_Tasktime.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.TextBox_Tasktime.Location = New System.Drawing.Point(35, 110)
-        Me.TextBox_Tasktime.MaxLength = 5
+        Me.TextBox_Tasktime.MaxLength = 6
         Me.TextBox_Tasktime.Name = "TextBox_Tasktime"
         Me.TextBox_Tasktime.PlaceholderText = "00:00"
         Me.TextBox_Tasktime.Size = New System.Drawing.Size(39, 23)
@@ -323,6 +327,7 @@ Partial Class MainForm
         '
         Me.RadioButton_EveryDay.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.RadioButton_EveryDay.AutoSize = True
+        Me.RadioButton_EveryDay.Checked = True
         Me.RadioButton_EveryDay.Location = New System.Drawing.Point(10, 158)
         Me.RadioButton_EveryDay.Name = "RadioButton_EveryDay"
         Me.RadioButton_EveryDay.Size = New System.Drawing.Size(75, 19)
@@ -352,13 +357,17 @@ Partial Class MainForm
         '
         Me.ColumnHeader2.Text = "Next due"
         '
+        'Timer_CheckTasks
+        '
+        Me.Timer_CheckTasks.Enabled = True
+        Me.Timer_CheckTasks.Interval = 5000
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(916, 505)
         Me.Controls.Add(Me.TabControl_Main)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximumSize = New System.Drawing.Size(932, 544)
         Me.MinimumSize = New System.Drawing.Size(932, 544)
@@ -402,4 +411,5 @@ Partial Class MainForm
     Friend WithEvents ColumnHeader1 As ColumnHeader
     Friend WithEvents ColumnHeader2 As ColumnHeader
     Friend WithEvents Button_CreateTask As Button
+    Friend WithEvents Timer_CheckTasks As Timer
 End Class
