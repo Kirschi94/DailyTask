@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class MainForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,13 +20,13 @@ Partial Class MainForm
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.ListView_CurrentTasks = New System.Windows.Forms.ListView()
-        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader()
-        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader()
+        Me.Column_LVCT_Task = New System.Windows.Forms.ColumnHeader()
+        Me.Column_LVCT_NextDue = New System.Windows.Forms.ColumnHeader()
         Me.TabControl_Main = New System.Windows.Forms.TabControl()
         Me.CurrentTasks = New System.Windows.Forms.TabPage()
         Me.CheckBox_ShowNotToday = New System.Windows.Forms.CheckBox()
@@ -50,9 +50,11 @@ Partial Class MainForm
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadioButton_EveryDay = New System.Windows.Forms.RadioButton()
         Me.ListView_AllTasks = New System.Windows.Forms.ListView()
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader()
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader()
+        Me.Column_LVNT_Task = New System.Windows.Forms.ColumnHeader()
+        Me.Column_LVNT_NextDue = New System.Windows.Forms.ColumnHeader()
         Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
+        Me.Column_LVCT_Done = New System.Windows.Forms.ColumnHeader()
+        Me.CheckBox_ShowExecutedTasks = New System.Windows.Forms.CheckBox()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
         Me.CreateNewTask.SuspendLayout()
@@ -61,7 +63,7 @@ Partial Class MainForm
         '
         'ListView_CurrentTasks
         '
-        Me.ListView_CurrentTasks.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader4})
+        Me.ListView_CurrentTasks.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Column_LVCT_Task, Me.Column_LVCT_NextDue, Me.Column_LVCT_Done})
         Me.ListView_CurrentTasks.HideSelection = False
         Me.ListView_CurrentTasks.Location = New System.Drawing.Point(6, 6)
         Me.ListView_CurrentTasks.Name = "ListView_CurrentTasks"
@@ -70,13 +72,16 @@ Partial Class MainForm
         Me.ListView_CurrentTasks.UseCompatibleStateImageBehavior = False
         Me.ListView_CurrentTasks.View = System.Windows.Forms.View.Details
         '
-        'ColumnHeader3
+        'Column_LVCT_Task
         '
-        Me.ColumnHeader3.Text = "Task"
+        Me.Column_LVCT_Task.Text = "Task"
+        Me.Column_LVCT_Task.Width = 360
         '
-        'ColumnHeader4
+        'Column_LVCT_NextDue
         '
-        Me.ColumnHeader4.Text = "Next due"
+        Me.Column_LVCT_NextDue.Text = "Next due"
+        Me.Column_LVCT_NextDue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Column_LVCT_NextDue.Width = 200
         '
         'TabControl_Main
         '
@@ -93,6 +98,7 @@ Partial Class MainForm
         '
         'CurrentTasks
         '
+        Me.CurrentTasks.Controls.Add(Me.CheckBox_ShowExecutedTasks)
         Me.CurrentTasks.Controls.Add(Me.CheckBox_ShowNotToday)
         Me.CurrentTasks.Controls.Add(Me.ListView_CurrentTasks)
         Me.CurrentTasks.Location = New System.Drawing.Point(4, 24)
@@ -265,10 +271,12 @@ Partial Class MainForm
         'TextBox_Tasktime
         '
         Me.TextBox_Tasktime.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.TextBox_Tasktime.BackColor = System.Drawing.SystemColors.ControlLightLight
         Me.TextBox_Tasktime.Location = New System.Drawing.Point(35, 110)
-        Me.TextBox_Tasktime.MaxLength = 6
+        Me.TextBox_Tasktime.MaxLength = 5
         Me.TextBox_Tasktime.Name = "TextBox_Tasktime"
         Me.TextBox_Tasktime.PlaceholderText = "00:00"
+        Me.TextBox_Tasktime.ReadOnly = True
         Me.TextBox_Tasktime.Size = New System.Drawing.Size(39, 23)
         Me.TextBox_Tasktime.TabIndex = 9
         Me.TextBox_Tasktime.Text = "00:00"
@@ -340,7 +348,7 @@ Partial Class MainForm
         '
         Me.ListView_AllTasks.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.ListView_AllTasks.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.ListView_AllTasks.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Column_LVNT_Task, Me.Column_LVNT_NextDue})
         Me.ListView_AllTasks.HideSelection = False
         Me.ListView_AllTasks.Location = New System.Drawing.Point(6, 6)
         Me.ListView_AllTasks.Name = "ListView_AllTasks"
@@ -349,18 +357,39 @@ Partial Class MainForm
         Me.ListView_AllTasks.UseCompatibleStateImageBehavior = False
         Me.ListView_AllTasks.View = System.Windows.Forms.View.Details
         '
-        'ColumnHeader1
+        'Column_LVNT_Task
         '
-        Me.ColumnHeader1.Text = "Task"
+        Me.Column_LVNT_Task.Text = "Task"
+        Me.Column_LVNT_Task.Width = 300
         '
-        'ColumnHeader2
+        'Column_LVNT_NextDue
         '
-        Me.ColumnHeader2.Text = "Next due"
+        Me.Column_LVNT_NextDue.Text = "Next due"
+        Me.Column_LVNT_NextDue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Column_LVNT_NextDue.Width = 130
         '
         'Timer_CheckTasks
         '
         Me.Timer_CheckTasks.Enabled = True
         Me.Timer_CheckTasks.Interval = 5000
+        '
+        'Column_LVCT_Done
+        '
+        Me.Column_LVCT_Done.Text = "Done"
+        Me.Column_LVCT_Done.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Column_LVCT_Done.Width = 140
+        '
+        'CheckBox_ShowExecutedTasks
+        '
+        Me.CheckBox_ShowExecutedTasks.AutoSize = True
+        Me.CheckBox_ShowExecutedTasks.Checked = True
+        Me.CheckBox_ShowExecutedTasks.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_ShowExecutedTasks.Location = New System.Drawing.Point(717, 31)
+        Me.CheckBox_ShowExecutedTasks.Name = "CheckBox_ShowExecutedTasks"
+        Me.CheckBox_ShowExecutedTasks.Size = New System.Drawing.Size(135, 19)
+        Me.CheckBox_ShowExecutedTasks.TabIndex = 2
+        Me.CheckBox_ShowExecutedTasks.Text = "Show executed tasks"
+        Me.CheckBox_ShowExecutedTasks.UseVisualStyleBackColor = True
         '
         'MainForm
         '
@@ -406,10 +435,12 @@ Partial Class MainForm
     Friend WithEvents CheckBox_Sat As CheckBox
     Friend WithEvents CheckBox_Fr As CheckBox
     Friend WithEvents CheckBox_Thu As CheckBox
-    Friend WithEvents ColumnHeader3 As ColumnHeader
-    Friend WithEvents ColumnHeader4 As ColumnHeader
-    Friend WithEvents ColumnHeader1 As ColumnHeader
-    Friend WithEvents ColumnHeader2 As ColumnHeader
+    Friend WithEvents Column_LVCT_Task As ColumnHeader
+    Friend WithEvents Column_LVCT_NextDue As ColumnHeader
+    Friend WithEvents Column_LVNT_Task As ColumnHeader
+    Friend WithEvents Column_LVNT_NextDue As ColumnHeader
     Friend WithEvents Button_CreateTask As Button
     Friend WithEvents Timer_CheckTasks As Timer
+    Friend WithEvents Column_LVCT_Done As ColumnHeader
+    Friend WithEvents CheckBox_ShowExecutedTasks As CheckBox
 End Class
