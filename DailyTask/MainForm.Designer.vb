@@ -27,8 +27,10 @@ Partial Class MainForm
         Me.ListView_CurrentTasks = New System.Windows.Forms.ListView()
         Me.Column_LVCT_Task = New System.Windows.Forms.ColumnHeader()
         Me.Column_LVCT_NextDue = New System.Windows.Forms.ColumnHeader()
+        Me.Column_LVCT_Done = New System.Windows.Forms.ColumnHeader()
         Me.TabControl_Main = New System.Windows.Forms.TabControl()
         Me.CurrentTasks = New System.Windows.Forms.TabPage()
+        Me.CheckBox_ShowExecutedTasks = New System.Windows.Forms.CheckBox()
         Me.CheckBox_ShowNotToday = New System.Windows.Forms.CheckBox()
         Me.CreateNewTask = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -53,8 +55,6 @@ Partial Class MainForm
         Me.Column_LVNT_Task = New System.Windows.Forms.ColumnHeader()
         Me.Column_LVNT_NextDue = New System.Windows.Forms.ColumnHeader()
         Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
-        Me.Column_LVCT_Done = New System.Windows.Forms.ColumnHeader()
-        Me.CheckBox_ShowExecutedTasks = New System.Windows.Forms.CheckBox()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
         Me.CreateNewTask.SuspendLayout()
@@ -83,6 +83,12 @@ Partial Class MainForm
         Me.Column_LVCT_NextDue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.Column_LVCT_NextDue.Width = 200
         '
+        'Column_LVCT_Done
+        '
+        Me.Column_LVCT_Done.Text = "Done"
+        Me.Column_LVCT_Done.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Column_LVCT_Done.Width = 140
+        '
         'TabControl_Main
         '
         Me.TabControl_Main.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -108,6 +114,18 @@ Partial Class MainForm
         Me.CurrentTasks.TabIndex = 0
         Me.CurrentTasks.Text = "Current Tasks"
         Me.CurrentTasks.UseVisualStyleBackColor = True
+        '
+        'CheckBox_ShowExecutedTasks
+        '
+        Me.CheckBox_ShowExecutedTasks.AutoSize = True
+        Me.CheckBox_ShowExecutedTasks.Checked = True
+        Me.CheckBox_ShowExecutedTasks.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_ShowExecutedTasks.Location = New System.Drawing.Point(717, 31)
+        Me.CheckBox_ShowExecutedTasks.Name = "CheckBox_ShowExecutedTasks"
+        Me.CheckBox_ShowExecutedTasks.Size = New System.Drawing.Size(135, 19)
+        Me.CheckBox_ShowExecutedTasks.TabIndex = 2
+        Me.CheckBox_ShowExecutedTasks.Text = "Show executed tasks"
+        Me.CheckBox_ShowExecutedTasks.UseVisualStyleBackColor = True
         '
         'CheckBox_ShowNotToday
         '
@@ -372,24 +390,6 @@ Partial Class MainForm
         '
         Me.Timer_CheckTasks.Enabled = True
         Me.Timer_CheckTasks.Interval = 5000
-        '
-        'Column_LVCT_Done
-        '
-        Me.Column_LVCT_Done.Text = "Done"
-        Me.Column_LVCT_Done.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.Column_LVCT_Done.Width = 140
-        '
-        'CheckBox_ShowExecutedTasks
-        '
-        Me.CheckBox_ShowExecutedTasks.AutoSize = True
-        Me.CheckBox_ShowExecutedTasks.Checked = True
-        Me.CheckBox_ShowExecutedTasks.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox_ShowExecutedTasks.Location = New System.Drawing.Point(717, 31)
-        Me.CheckBox_ShowExecutedTasks.Name = "CheckBox_ShowExecutedTasks"
-        Me.CheckBox_ShowExecutedTasks.Size = New System.Drawing.Size(135, 19)
-        Me.CheckBox_ShowExecutedTasks.TabIndex = 2
-        Me.CheckBox_ShowExecutedTasks.Text = "Show executed tasks"
-        Me.CheckBox_ShowExecutedTasks.UseVisualStyleBackColor = True
         '
         'MainForm
         '

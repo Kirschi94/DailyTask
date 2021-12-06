@@ -1,6 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 Public Class MainForm
     Private LastText As String = "00:00"
+    Private ListOfTasks As List(Of DailyTask)
     Private Sub RadioButton_OnTheseDays_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_OnTheseDays.CheckedChanged
         If RadioButton_OnTheseDays.Checked Then RadioButton_EveryDay.Checked = False
         Change_Checkboxes(True)
@@ -109,4 +110,63 @@ Public Class MainForm
 
         TextBox_Tasktime.SelectionStart = GoFurther
     End Sub
+
+    Private Sub Button_CreateTask_Click(sender As Object, e As EventArgs) Handles Button_CreateTask.Click
+        BuildNewTask()
+    End Sub
+
+    Private Sub BuildNewTask()
+        Dim TempID As Integer = GetRandomInt()
+        Dim Contains As Boolean = True
+
+        While Contains
+            For Each TheItem In ListOfTasks
+                If TheItem.ID = TempID Then
+                    Contains = True
+                    TempID = GetRandomInt()
+                    Exit For
+                Else
+                    Contains = False
+                End If
+            Next
+        End While
+
+        If RadioButton_EveryDay.Checked Then
+            Dim NewTask As New DailyTask(TempID, TextBox_Taskdescription.Text, TextBox_Tasktime.Text)
+            ListOfTasks.Add(NewTask)
+            BuildListviews()
+            Exit Sub
+        End If
+        If RadioButton_OnTheseDays.Checked Then
+            Dim NewTask As New DailyTask(TempID, TextBox_Taskdescription.Text, TextBox_Tasktime.Text,
+                                         New Short() {CheckBox_Su.Checked * -1, CheckBox_Mo.Checked * -1, CheckBox_Tue.Checked * -1,
+                                         CheckBox_Wed.Checked * -1, CheckBox_Thu.Checked * -1, CheckBox_Fr.Checked * -1, CheckBox_Sat.Checked * -1})
+            ListOfTasks.Add(NewTask)
+            BuildListviews()
+        End If
+    End Sub
+
+    Private Sub BuildListviews()
+        ListView_AllTasks.Items.Clear()
+        ListView_CurrentTasks.Items.Clear()
+
+        For Each TheItem In ListOfTasks
+            With ListView_AllTasks.Items.Add(TheItem.Description)
+                .SubItems.Add(TheItem.NextDue.ToString("yyyy/MM/dd, HH:mm"))
+                .SubItems.Add(TheItem.ID)
+            End With
+
+            If CheckBox_ShowExecutedTasks.Checked And TheItem.Done Then
+                'Abbruch in der Session wegen Kopffick
+            End If
+        Next
+    End Sub
+
+    Private Function GetRandomInt() As Integer
+        ' by making Generator static, we preserve the same instance '
+        ' (i.e., do not create new instances with the same seed over and over) '
+        ' between calls '
+        Static Generator As New Random()
+        Return Generator.Next(Integer.MinValue, Integer.MaxValue)
+    End Function
 End Class
