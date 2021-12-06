@@ -24,11 +24,18 @@ Partial Class MainForm
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.ListView_CurrentTasks = New System.Windows.Forms.ListView()
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader()
+        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader()
         Me.TabControl_Main = New System.Windows.Forms.TabControl()
         Me.CurrentTasks = New System.Windows.Forms.TabPage()
         Me.CheckBox_ShowNotToday = New System.Windows.Forms.CheckBox()
         Me.CreateNewTask = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Button_CreateTask = New System.Windows.Forms.Button()
+        Me.CheckBox_Su = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Sat = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Fr = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Thu = New System.Windows.Forms.CheckBox()
         Me.CheckBox_Wed = New System.Windows.Forms.CheckBox()
         Me.CheckBox_Tue = New System.Windows.Forms.CheckBox()
         Me.CheckBox_Mo = New System.Windows.Forms.CheckBox()
@@ -42,14 +49,8 @@ Partial Class MainForm
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadioButton_EveryDay = New System.Windows.Forms.RadioButton()
         Me.ListView_AllTasks = New System.Windows.Forms.ListView()
-        Me.CheckBox_Thu = New System.Windows.Forms.CheckBox()
-        Me.CheckBox_Fr = New System.Windows.Forms.CheckBox()
-        Me.CheckBox_Sat = New System.Windows.Forms.CheckBox()
-        Me.CheckBox_Su = New System.Windows.Forms.CheckBox()
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader()
-        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader()
-        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
         Me.CreateNewTask.SuspendLayout()
@@ -62,19 +63,30 @@ Partial Class MainForm
         Me.ListView_CurrentTasks.HideSelection = False
         Me.ListView_CurrentTasks.Location = New System.Drawing.Point(6, 6)
         Me.ListView_CurrentTasks.Name = "ListView_CurrentTasks"
-        Me.ListView_CurrentTasks.Size = New System.Drawing.Size(656, 400)
+        Me.ListView_CurrentTasks.Size = New System.Drawing.Size(705, 441)
         Me.ListView_CurrentTasks.TabIndex = 0
         Me.ListView_CurrentTasks.UseCompatibleStateImageBehavior = False
         Me.ListView_CurrentTasks.View = System.Windows.Forms.View.Details
         '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Task"
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Next due"
+        '
         'TabControl_Main
         '
+        Me.TabControl_Main.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl_Main.Controls.Add(Me.CurrentTasks)
         Me.TabControl_Main.Controls.Add(Me.CreateNewTask)
         Me.TabControl_Main.Location = New System.Drawing.Point(12, 12)
         Me.TabControl_Main.Name = "TabControl_Main"
         Me.TabControl_Main.SelectedIndex = 0
-        Me.TabControl_Main.Size = New System.Drawing.Size(843, 440)
+        Me.TabControl_Main.Size = New System.Drawing.Size(892, 481)
         Me.TabControl_Main.TabIndex = 1
         '
         'CurrentTasks
@@ -84,7 +96,7 @@ Partial Class MainForm
         Me.CurrentTasks.Location = New System.Drawing.Point(4, 24)
         Me.CurrentTasks.Name = "CurrentTasks"
         Me.CurrentTasks.Padding = New System.Windows.Forms.Padding(3)
-        Me.CurrentTasks.Size = New System.Drawing.Size(835, 412)
+        Me.CurrentTasks.Size = New System.Drawing.Size(884, 453)
         Me.CurrentTasks.TabIndex = 0
         Me.CurrentTasks.Text = "Current Tasks"
         Me.CurrentTasks.UseVisualStyleBackColor = True
@@ -92,7 +104,7 @@ Partial Class MainForm
         'CheckBox_ShowNotToday
         '
         Me.CheckBox_ShowNotToday.AutoSize = True
-        Me.CheckBox_ShowNotToday.Location = New System.Drawing.Point(668, 6)
+        Me.CheckBox_ShowNotToday.Location = New System.Drawing.Point(717, 6)
         Me.CheckBox_ShowNotToday.Name = "CheckBox_ShowNotToday"
         Me.CheckBox_ShowNotToday.Size = New System.Drawing.Size(161, 19)
         Me.CheckBox_ShowNotToday.TabIndex = 1
@@ -106,13 +118,16 @@ Partial Class MainForm
         Me.CreateNewTask.Location = New System.Drawing.Point(4, 24)
         Me.CreateNewTask.Name = "CreateNewTask"
         Me.CreateNewTask.Padding = New System.Windows.Forms.Padding(3)
-        Me.CreateNewTask.Size = New System.Drawing.Size(835, 412)
+        Me.CreateNewTask.Size = New System.Drawing.Size(884, 453)
         Me.CreateNewTask.TabIndex = 1
         Me.CreateNewTask.Text = "Create new Task"
         Me.CreateNewTask.UseVisualStyleBackColor = True
         '
         'Panel1
         '
+        Me.Panel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel1.Controls.Add(Me.Button_CreateTask)
         Me.Panel1.Controls.Add(Me.CheckBox_Su)
         Me.Panel1.Controls.Add(Me.CheckBox_Sat)
         Me.Panel1.Controls.Add(Me.CheckBox_Fr)
@@ -129,15 +144,70 @@ Partial Class MainForm
         Me.Panel1.Controls.Add(Me.Label2)
         Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.RadioButton_EveryDay)
-        Me.Panel1.Location = New System.Drawing.Point(409, 6)
+        Me.Panel1.Location = New System.Drawing.Point(448, 6)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(420, 400)
+        Me.Panel1.Size = New System.Drawing.Size(430, 441)
         Me.Panel1.TabIndex = 2
+        '
+        'Button_CreateTask
+        '
+        Me.Button_CreateTask.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.Button_CreateTask.Location = New System.Drawing.Point(10, 259)
+        Me.Button_CreateTask.Name = "Button_CreateTask"
+        Me.Button_CreateTask.Size = New System.Drawing.Size(94, 29)
+        Me.Button_CreateTask.TabIndex = 19
+        Me.Button_CreateTask.Text = "Create Task"
+        Me.Button_CreateTask.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Su
+        '
+        Me.CheckBox_Su.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.CheckBox_Su.AutoSize = True
+        Me.CheckBox_Su.Location = New System.Drawing.Point(377, 221)
+        Me.CheckBox_Su.Name = "CheckBox_Su"
+        Me.CheckBox_Su.Size = New System.Drawing.Size(39, 19)
+        Me.CheckBox_Su.TabIndex = 18
+        Me.CheckBox_Su.Text = "Su"
+        Me.CheckBox_Su.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Sat
+        '
+        Me.CheckBox_Sat.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.CheckBox_Sat.AutoSize = True
+        Me.CheckBox_Sat.Location = New System.Drawing.Point(315, 221)
+        Me.CheckBox_Sat.Name = "CheckBox_Sat"
+        Me.CheckBox_Sat.Size = New System.Drawing.Size(42, 19)
+        Me.CheckBox_Sat.TabIndex = 17
+        Me.CheckBox_Sat.Text = "Sat"
+        Me.CheckBox_Sat.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Fr
+        '
+        Me.CheckBox_Fr.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.CheckBox_Fr.AutoSize = True
+        Me.CheckBox_Fr.Location = New System.Drawing.Point(260, 221)
+        Me.CheckBox_Fr.Name = "CheckBox_Fr"
+        Me.CheckBox_Fr.Size = New System.Drawing.Size(36, 19)
+        Me.CheckBox_Fr.TabIndex = 16
+        Me.CheckBox_Fr.Text = "Fr"
+        Me.CheckBox_Fr.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Thu
+        '
+        Me.CheckBox_Thu.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.CheckBox_Thu.AutoSize = True
+        Me.CheckBox_Thu.Location = New System.Drawing.Point(195, 221)
+        Me.CheckBox_Thu.Name = "CheckBox_Thu"
+        Me.CheckBox_Thu.Size = New System.Drawing.Size(46, 19)
+        Me.CheckBox_Thu.TabIndex = 15
+        Me.CheckBox_Thu.Text = "Thu"
+        Me.CheckBox_Thu.UseVisualStyleBackColor = True
         '
         'CheckBox_Wed
         '
+        Me.CheckBox_Wed.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.CheckBox_Wed.AutoSize = True
-        Me.CheckBox_Wed.Location = New System.Drawing.Point(124, 221)
+        Me.CheckBox_Wed.Location = New System.Drawing.Point(129, 221)
         Me.CheckBox_Wed.Name = "CheckBox_Wed"
         Me.CheckBox_Wed.Size = New System.Drawing.Size(50, 19)
         Me.CheckBox_Wed.TabIndex = 14
@@ -146,8 +216,9 @@ Partial Class MainForm
         '
         'CheckBox_Tue
         '
+        Me.CheckBox_Tue.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.CheckBox_Tue.AutoSize = True
-        Me.CheckBox_Tue.Location = New System.Drawing.Point(64, 221)
+        Me.CheckBox_Tue.Location = New System.Drawing.Point(69, 221)
         Me.CheckBox_Tue.Name = "CheckBox_Tue"
         Me.CheckBox_Tue.Size = New System.Drawing.Size(45, 19)
         Me.CheckBox_Tue.TabIndex = 13
@@ -156,8 +227,9 @@ Partial Class MainForm
         '
         'CheckBox_Mo
         '
+        Me.CheckBox_Mo.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.CheckBox_Mo.AutoSize = True
-        Me.CheckBox_Mo.Location = New System.Drawing.Point(5, 221)
+        Me.CheckBox_Mo.Location = New System.Drawing.Point(10, 221)
         Me.CheckBox_Mo.Name = "CheckBox_Mo"
         Me.CheckBox_Mo.Size = New System.Drawing.Size(44, 19)
         Me.CheckBox_Mo.TabIndex = 12
@@ -166,8 +238,9 @@ Partial Class MainForm
         '
         'RadioButton_OnTheseDays
         '
+        Me.RadioButton_OnTheseDays.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.RadioButton_OnTheseDays.AutoSize = True
-        Me.RadioButton_OnTheseDays.Location = New System.Drawing.Point(5, 196)
+        Me.RadioButton_OnTheseDays.Location = New System.Drawing.Point(10, 196)
         Me.RadioButton_OnTheseDays.Name = "RadioButton_OnTheseDays"
         Me.RadioButton_OnTheseDays.Size = New System.Drawing.Size(102, 19)
         Me.RadioButton_OnTheseDays.TabIndex = 11
@@ -177,8 +250,9 @@ Partial Class MainForm
         '
         'Label5
         '
+        Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(75, 113)
+        Me.Label5.Location = New System.Drawing.Point(80, 113)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(14, 15)
         Me.Label5.TabIndex = 10
@@ -186,15 +260,21 @@ Partial Class MainForm
         '
         'TextBox_Tasktime
         '
-        Me.TextBox_Tasktime.Location = New System.Drawing.Point(30, 110)
+        Me.TextBox_Tasktime.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.TextBox_Tasktime.Location = New System.Drawing.Point(35, 110)
+        Me.TextBox_Tasktime.MaxLength = 5
         Me.TextBox_Tasktime.Name = "TextBox_Tasktime"
+        Me.TextBox_Tasktime.PlaceholderText = "00:00"
         Me.TextBox_Tasktime.Size = New System.Drawing.Size(39, 23)
         Me.TextBox_Tasktime.TabIndex = 9
+        Me.TextBox_Tasktime.Text = "00:00"
+        Me.TextBox_Tasktime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label4
         '
+        Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(5, 113)
+        Me.Label4.Location = New System.Drawing.Point(10, 113)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(19, 15)
         Me.Label4.TabIndex = 8
@@ -202,8 +282,9 @@ Partial Class MainForm
         '
         'Label3
         '
+        Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(3, 83)
+        Me.Label3.Location = New System.Drawing.Point(8, 83)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(66, 15)
         Me.Label3.TabIndex = 7
@@ -211,15 +292,18 @@ Partial Class MainForm
         '
         'TextBox_Taskdescription
         '
-        Me.TextBox_Taskdescription.Location = New System.Drawing.Point(105, 30)
+        Me.TextBox_Taskdescription.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_Taskdescription.Location = New System.Drawing.Point(115, 30)
+        Me.TextBox_Taskdescription.MaxLength = 50
         Me.TextBox_Taskdescription.Name = "TextBox_Taskdescription"
-        Me.TextBox_Taskdescription.Size = New System.Drawing.Size(312, 23)
+        Me.TextBox_Taskdescription.Size = New System.Drawing.Size(301, 23)
         Me.TextBox_Taskdescription.TabIndex = 6
         '
         'Label2
         '
+        Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(5, 33)
+        Me.Label2.Location = New System.Drawing.Point(10, 33)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(94, 15)
         Me.Label2.TabIndex = 5
@@ -227,8 +311,9 @@ Partial Class MainForm
         '
         'Label1
         '
+        Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(3, 4)
+        Me.Label1.Location = New System.Drawing.Point(8, 4)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(77, 15)
         Me.Label1.TabIndex = 4
@@ -236,8 +321,9 @@ Partial Class MainForm
         '
         'RadioButton_EveryDay
         '
+        Me.RadioButton_EveryDay.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.RadioButton_EveryDay.AutoSize = True
-        Me.RadioButton_EveryDay.Location = New System.Drawing.Point(5, 158)
+        Me.RadioButton_EveryDay.Location = New System.Drawing.Point(10, 158)
         Me.RadioButton_EveryDay.Name = "RadioButton_EveryDay"
         Me.RadioButton_EveryDay.Size = New System.Drawing.Size(75, 19)
         Me.RadioButton_EveryDay.TabIndex = 3
@@ -247,54 +333,16 @@ Partial Class MainForm
         '
         'ListView_AllTasks
         '
+        Me.ListView_AllTasks.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ListView_AllTasks.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.ListView_AllTasks.HideSelection = False
         Me.ListView_AllTasks.Location = New System.Drawing.Point(6, 6)
         Me.ListView_AllTasks.Name = "ListView_AllTasks"
-        Me.ListView_AllTasks.Size = New System.Drawing.Size(397, 400)
+        Me.ListView_AllTasks.Size = New System.Drawing.Size(436, 441)
         Me.ListView_AllTasks.TabIndex = 1
         Me.ListView_AllTasks.UseCompatibleStateImageBehavior = False
         Me.ListView_AllTasks.View = System.Windows.Forms.View.Details
-        '
-        'CheckBox_Thu
-        '
-        Me.CheckBox_Thu.AutoSize = True
-        Me.CheckBox_Thu.Location = New System.Drawing.Point(190, 221)
-        Me.CheckBox_Thu.Name = "CheckBox_Thu"
-        Me.CheckBox_Thu.Size = New System.Drawing.Size(46, 19)
-        Me.CheckBox_Thu.TabIndex = 15
-        Me.CheckBox_Thu.Text = "Thu"
-        Me.CheckBox_Thu.UseVisualStyleBackColor = True
-        '
-        'CheckBox_Fr
-        '
-        Me.CheckBox_Fr.AutoSize = True
-        Me.CheckBox_Fr.Location = New System.Drawing.Point(255, 221)
-        Me.CheckBox_Fr.Name = "CheckBox_Fr"
-        Me.CheckBox_Fr.Size = New System.Drawing.Size(36, 19)
-        Me.CheckBox_Fr.TabIndex = 16
-        Me.CheckBox_Fr.Text = "Fr"
-        Me.CheckBox_Fr.UseVisualStyleBackColor = True
-        '
-        'CheckBox_Sat
-        '
-        Me.CheckBox_Sat.AutoSize = True
-        Me.CheckBox_Sat.Location = New System.Drawing.Point(310, 221)
-        Me.CheckBox_Sat.Name = "CheckBox_Sat"
-        Me.CheckBox_Sat.Size = New System.Drawing.Size(42, 19)
-        Me.CheckBox_Sat.TabIndex = 17
-        Me.CheckBox_Sat.Text = "Sat"
-        Me.CheckBox_Sat.UseVisualStyleBackColor = True
-        '
-        'CheckBox_Su
-        '
-        Me.CheckBox_Su.AutoSize = True
-        Me.CheckBox_Su.Location = New System.Drawing.Point(372, 221)
-        Me.CheckBox_Su.Name = "CheckBox_Su"
-        Me.CheckBox_Su.Size = New System.Drawing.Size(39, 19)
-        Me.CheckBox_Su.TabIndex = 18
-        Me.CheckBox_Su.Text = "Su"
-        Me.CheckBox_Su.UseVisualStyleBackColor = True
         '
         'ColumnHeader1
         '
@@ -304,21 +352,16 @@ Partial Class MainForm
         '
         Me.ColumnHeader2.Text = "Next due"
         '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Task"
-        '
-        'ColumnHeader4
-        '
-        Me.ColumnHeader4.Text = "Next due"
-        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(867, 464)
+        Me.ClientSize = New System.Drawing.Size(916, 505)
         Me.Controls.Add(Me.TabControl_Main)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximumSize = New System.Drawing.Size(932, 544)
+        Me.MinimumSize = New System.Drawing.Size(932, 544)
         Me.Name = "MainForm"
         Me.Text = "DailyTask"
         Me.TabControl_Main.ResumeLayout(False)
@@ -358,4 +401,5 @@ Partial Class MainForm
     Friend WithEvents ColumnHeader4 As ColumnHeader
     Friend WithEvents ColumnHeader1 As ColumnHeader
     Friend WithEvents ColumnHeader2 As ColumnHeader
+    Friend WithEvents Button_CreateTask As Button
 End Class
