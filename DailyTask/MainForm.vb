@@ -438,6 +438,7 @@ Public Class MainForm
             TheTask.Postpone()
         Else
             ReminderWindow.Task = TheTask
+            ReminderWindow.Load()
             ReminderWindow.Show()
         End If
     End Sub
