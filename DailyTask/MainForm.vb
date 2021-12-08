@@ -1,5 +1,8 @@
 ﻿Imports System.ComponentModel
+Imports System.IO
 Imports System.Text.RegularExpressions
+Imports Newtonsoft.Json
+
 Public Class MainForm
     Private LastText As String = "00:00"
     Private ListOfTasks As New List(Of DailyTask)()
@@ -21,10 +24,6 @@ Public Class MainForm
         CheckBox_Fr.Enabled = Bool
         CheckBox_Sat.Enabled = Bool
         CheckBox_Su.Enabled = Bool
-    End Sub
-
-    Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
     End Sub
 
     Private Sub TextBox_Taskdescription_TextChanged(sender As Object, e As EventArgs) Handles TextBox_Taskdescription.TextChanged
@@ -165,7 +164,7 @@ Public Class MainForm
         ListView_CurrentTasks.Items.Clear()
 
         For Each TheItem In ListOfTasks
-            If TheItem.Done = "🗸" AndAlso CheckBox_ShowExecutedTasks.Checked = False Then
+            If TheItem._Done = "🗸" AndAlso CheckBox_ShowExecutedTasks.Checked = False Then
                 'Do nothing
             Else
                 If CheckBox_ShowNotToday.Checked = False AndAlso Not (TheItem.NextDue.Year = DateTime.Now.Year AndAlso TheItem.NextDue.DayOfYear = DateTime.Now.DayOfYear) Then
@@ -173,7 +172,7 @@ Public Class MainForm
                 Else
                     With ListView_CurrentTasks.Items.Add(TheItem.Description)
                         .SubItems.Add(TheItem.NextDue.ToString("dd/MM/yyyy, HH:mm"))
-                        .SubItems.Add(TheItem.Done)
+                        .SubItems.Add(TheItem._Done)
                         .SubItems.Add(TheItem.ID)
                     End With
                 End If
@@ -200,7 +199,7 @@ Public Class MainForm
     Private Sub MarkAs(ID As Integer, TheValue As String)
         For Each TheItem In ListOfTasks
             If TheItem.ID = ID Then
-                TheItem.Done = TheValue
+                TheItem._Done = TheValue
                 Exit For
             End If
         Next
@@ -215,6 +214,9 @@ Public Class MainForm
                 Exit For
             End If
         Next
+        If File.Exists(Application.StartupPath & "\Tasks\" & ID.ToString() & ".json") Then
+            File.Delete(Application.StartupPath & "\Tasks\" & ID.ToString() & ".json")
+        End If
         BuildListview_CurrentTasks()
         BuildListview_AllTasks()
     End Sub
@@ -278,6 +280,39 @@ Public Class MainForm
         Else
             LVCT_ContextMenuItemsEnabled(True)
             CheckContextMenuBasedOnSelectedTask(ListView_CurrentTasks)
+        End If
+    End Sub
+
+    Private Function GetDataFromJsonFile(FilePath As String)
+        Dim rawJson = File.ReadAllText(FilePath)
+        Return ToClass(Of DailyTask)(rawJson)
+    End Function
+
+    Private Function GetJsonFromDailyTask(TheDailyTask As DailyTask)
+        Return FromClass(TheDailyTask)
+    End Function
+
+    Private Sub MainForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        If Not Directory.Exists(Application.StartupPath & "\Tasks") Then
+            Directory.CreateDirectory(Application.StartupPath & "\Tasks")
+        End If
+        For Each task As DailyTask In ListOfTasks
+            File.WriteAllText(Application.StartupPath & "\Tasks\" & task.ID.ToString() & ".json", task.ToJson())
+        Next
+    End Sub
+
+    Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Directory.Exists(Application.StartupPath & "\Tasks") Then
+            Dim files() As String = Directory.GetFiles(Application.StartupPath & "\Tasks")
+            For Each file As String In files
+                Dim TempTask As DailyTask = GetDataFromJsonFile(file)
+                TempTask.GetNextDue()
+                ListOfTasks.Add(TempTask)
+            Next
+            BuildListview_AllTasks()
+            BuildListview_CurrentTasks()
+        Else
+            Directory.CreateDirectory(Application.StartupPath & "\Tasks")
         End If
     End Sub
 End Class

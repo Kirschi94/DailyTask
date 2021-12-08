@@ -1,11 +1,15 @@
-﻿Public Class DailyTask
+﻿Imports Newtonsoft.Json
+Public Class DailyTask
     Private _Description As String = Nothing
     Private _Time As String = Nothing
     Private _NextDue As DateTime = Nothing
-    Private _Weekdays As Array = Nothing
+    Private _Weekdays As Short() = Nothing
     Private _id As Integer = Nothing
-    Public Done As String = Nothing
+    <JsonProperty("done")>
+    Public _Done As String = Nothing
 
+
+    <JsonProperty("description")>
     Public Property Description As String
         Get
             Return _Description
@@ -15,6 +19,7 @@
         End Set
     End Property
 
+    <JsonProperty("time")>
     Public Property Time As String
         Get
             Return _Time
@@ -24,6 +29,7 @@
         End Set
     End Property
 
+    <JsonProperty("nextdue")>
     Public Property NextDue As DateTime
         Get
             Return _NextDue
@@ -33,15 +39,17 @@
         End Set
     End Property
 
-    Public Property Weekdays As Array
+    <JsonProperty("weekdays")>
+    Public Property Weekdays As Short()
         Get
             Return _Weekdays
         End Get
-        Private Set(value As Array)
+        Private Set(value As Short())
             _Weekdays = value
         End Set
     End Property
 
+    <JsonProperty("id")>
     Public Property ID As Integer
         Get
             Return _id
@@ -51,16 +59,16 @@
         End Set
     End Property
 
-    Public Sub New(ID_ As Integer, Description_ As String, Time_ As String, Optional Weekdays_ As Array = Nothing, Optional Done_ As String = Nothing, Optional NextDue_ As DateTime = Nothing)
-        _id = ID_
-        _Description = Description_
-        _Time = Time_
-        _Weekdays = Weekdays_
-        _NextDue = NextDue_
-        Done = Done_
+    Public Sub New(ID As Integer, Description As String, Time As String, Optional Weekdays As Short() = Nothing, Optional Done As String = Nothing, Optional NextDue As DateTime = Nothing)
+        _id = ID
+        _Description = Description
+        _Time = Time
+        _Weekdays = Weekdays
+        _NextDue = NextDue
+        _Done = Done
         If _Weekdays Is Nothing Then _Weekdays = New Short() {1, 1, 1, 1, 1, 1, 1}
 
-        Dim Times As String() = Time_.Split(":")
+        Dim Times As String() = Time.Split(":")
         Dim Due As New DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Int(Times.GetValue(0)), Int(Times.GetValue(1)), 0)
         If Done Is Nothing Then
             If DateTime.Now > Due Then
@@ -82,7 +90,7 @@
                 _NextDue = DateAdd(DateInterval.Day, 1, _NextDue)
             End While
         End If
-        Done = "o"
+        _Done = "o"
     End Sub
 
     Public Sub Postpone()
@@ -90,4 +98,8 @@
             _NextDue = DateAdd(DateInterval.Minute, 5, _NextDue)
         End While
     End Sub
+
+    Public Function ToJson()
+        Return FromClass(Me)
+    End Function
 End Class
