@@ -91,6 +91,7 @@ Public Class DailyTask
             End If
         End If
 
+        If _OriginalDue = Nothing Or _OriginalDue.Year < 1900 Then _OriginalDue = _NextDue
         If _NextDue = Nothing Or _NextDue.Year < 1900 Then
             _NextDue = Due
             GetNextDue()
