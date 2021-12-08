@@ -10,6 +10,7 @@ Public Class MainForm
     Private ListOfOverdueTasks As New List(Of DailyTask)()
     Private LastCheck As String = Stgs.GetDayOfYearFormatted()
     Private Overdue As Boolean = False
+    Public Shared RefreshListviews As Boolean = False
 
     Private Sub RadioButton_OnTheseDays_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_OnTheseDays.CheckedChanged
         If RadioButton_OnTheseDays.Checked Then RadioButton_EveryDay.Checked = False
@@ -368,6 +369,26 @@ Public Class MainForm
     End Sub
 
     Private Sub Timer_CheckTasks_Tick(sender As Object, e As EventArgs) Handles Timer_CheckTasks.Tick
+        If RefreshListviews Then
+            BuildListview_AllTasks()
+            BuildListview_CurrentTasks()
+
+            Dim counting = 0
+            Dim TempList As New List(Of DailyTask)()
+            For Each TheItem In ListOfTasks
+                If TheItem.OriginalDue.ToString("dd/MM/yyyy") = DateTime.Now.ToString("dd/MM/yyyy") Then
+                    TempList.Add(TheItem)
+                    If TheItem._Done = Stgs.Done Then counting += 1
+                End If
+            Next
+            If counting = TempList.Count Then
+                AppIcon.Icon = My.Resources.Hell_kein_Schatten_grün
+            End If
+            TempList.Clear()
+
+            RefreshListviews = False
+        End If
+
         For Each TheTask In ListOfTasks
             If TheTask.NextDue <= Date.Now Then
                 Remind(TheTask)
@@ -383,6 +404,7 @@ Public Class MainForm
                 If TheItem.OriginalDue < Date.Now AndAlso TheItem.NextDue > Date.Now Then
                     Overdue = True
                     ListOfOverdueTasks.Add(TheItem)
+                    AppIcon.Icon = My.Resources.Hell_kein_Schatten_hellblau
                 End If
             Next
         End If
@@ -396,6 +418,7 @@ Public Class MainForm
             Next
             If ListOfOverdueTasks.Count <= 0 Then
                 Overdue = False
+                AppIcon.Icon = My.Resources.Hell_kein_Schatten
             End If
         Else
             LastCheck = Stgs.GetDayOfYearFormatted()

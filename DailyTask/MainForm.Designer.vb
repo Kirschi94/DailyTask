@@ -69,6 +69,7 @@ Partial Class MainForm
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader()
         Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
+        Me.AppIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ContextMenuStrip_LVCT.SuspendLayout()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
@@ -504,7 +505,13 @@ Partial Class MainForm
         'Timer_CheckTasks
         '
         Me.Timer_CheckTasks.Enabled = True
-        Me.Timer_CheckTasks.Interval = 5000
+        Me.Timer_CheckTasks.Interval = 2000
+        '
+        'AppIcon
+        '
+        Me.AppIcon.Icon = CType(resources.GetObject("AppIcon.Icon"), System.Drawing.Icon)
+        Me.AppIcon.Text = "DailyTask"
+        Me.AppIcon.Visible = True
         '
         'MainForm
         '
@@ -574,4 +581,5 @@ Partial Class MainForm
     Friend WithEvents ColumnHeader2 As ColumnHeader
     Friend WithEvents ColumnHeader3 As ColumnHeader
     Friend WithEvents ColumnHeader4 As ColumnHeader
+    Friend WithEvents AppIcon As NotifyIcon
 End Class
