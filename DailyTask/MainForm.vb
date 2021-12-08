@@ -443,13 +443,13 @@ Public Class MainForm
     End Sub
 
     Private Sub AppIcon_DoubleClick(sender As Object, e As EventArgs) Handles AppIcon.DoubleClick
-        WindowState = FormWindowState.Normal
         Show()
+        WindowState = FormWindowState.Normal
     End Sub
 
     Private Sub ShowToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ShowToolStripMenuItem.Click
-        WindowState = FormWindowState.Normal
         Show()
+        WindowState = FormWindowState.Normal
     End Sub
 
     Private Sub QuitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QuitToolStripMenuItem.Click
