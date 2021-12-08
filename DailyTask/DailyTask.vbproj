@@ -6,6 +6,7 @@
     <RootNamespace>DailyTask</RootNamespace>
     <StartupObject>DailyTask.MainForm</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Dunkel_kein_Schatten.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
