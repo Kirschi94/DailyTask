@@ -91,10 +91,10 @@ Public Class DailyTask
             End If
         End If
 
-        If _OriginalDue = Nothing Or _OriginalDue.Year < 1900 Then _OriginalDue = _NextDue
         If _NextDue = Nothing Or _NextDue.Year < 1900 Then
             _NextDue = Due
             GetNextDue()
+            If _OriginalDue = Nothing Or _OriginalDue.Year < 1900 Then _OriginalDue = _NextDue
         End If
     End Sub
 
@@ -110,7 +110,7 @@ Public Class DailyTask
 
     Public Sub Postpone()
         While DateTime.Now > _NextDue
-            _NextDue = DateAdd(DateInterval.Minute, 5, _NextDue)
+            _NextDue = DateAdd(DateInterval.Minute, Stgs.PostponingInMinutes, _NextDue)
         End While
     End Sub
 

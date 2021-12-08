@@ -4,10 +4,14 @@ Public Class Reminder
     Public Shared Open As Boolean
     Public Shared Task As DailyTask
     Public Sub Reminder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        LoadIn()
+    End Sub
+
+    Public Sub LoadIn()
         Open = True
         Label_TaskText.Text = Task.Description
-        Show()
         WindowState = FormWindowState.Normal
+        Media.SystemSounds.Exclamation.Play()
     End Sub
 
     Private Sub Reminder_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing

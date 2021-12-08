@@ -195,6 +195,21 @@ Public Class MainForm
                 End If
             End If
         Next
+
+        Dim counting = 0
+        Dim TempList As New List(Of DailyTask)()
+        For Each TheItem In ListOfTasks
+            If TheItem.OriginalDue.ToString("dd/MM/yyyy") = DateTime.Now.ToString("dd/MM/yyyy") Then
+                TempList.Add(TheItem)
+                If TheItem._Done = Stgs.Done Then counting += 1
+            End If
+        Next
+        If counting = TempList.Count Then
+            AppIcon.Icon = My.Resources.Hell_kein_Schatten_grün
+        ElseIf Not (counting = TempList.Count) And Not Overdue Then
+            AppIcon.Icon = My.Resources.Hell_kein_Schatten
+        End If
+        TempList.Clear()
     End Sub
 
     Private Sub BuildListview_PastTasks()
@@ -380,20 +395,6 @@ Public Class MainForm
         If RefreshListviews Then
             BuildListview_AllTasks()
             BuildListview_CurrentTasks()
-
-            Dim counting = 0
-            Dim TempList As New List(Of DailyTask)()
-            For Each TheItem In ListOfTasks
-                If TheItem.OriginalDue.ToString("dd/MM/yyyy") = DateTime.Now.ToString("dd/MM/yyyy") Then
-                    TempList.Add(TheItem)
-                    If TheItem._Done = Stgs.Done Then counting += 1
-                End If
-            Next
-            If counting = TempList.Count Then
-                AppIcon.Icon = My.Resources.Hell_kein_Schatten_grün
-            End If
-            TempList.Clear()
-
             RefreshListviews = False
         End If
 
@@ -438,7 +439,7 @@ Public Class MainForm
             TheTask.Postpone()
         Else
             ReminderWindow.Task = TheTask
-            ReminderWindow.Load()
+            ReminderWindow.LoadIn()
             ReminderWindow.Show()
         End If
     End Sub
