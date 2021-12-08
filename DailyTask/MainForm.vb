@@ -11,6 +11,8 @@ Public Class MainForm
     Private LastCheck As String = Stgs.GetDayOfYearFormatted()
     Private Overdue As Boolean = False
     Public Shared RefreshListviews As Boolean = False
+    Private Closable As Boolean = False
+    Private ReminderWindow = New Reminder
 
     Private Sub RadioButton_OnTheseDays_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_OnTheseDays.CheckedChanged
         If RadioButton_OnTheseDays.Checked Then RadioButton_EveryDay.Checked = False
@@ -337,19 +339,25 @@ Public Class MainForm
     End Function
 
     Private Sub MainForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        If Not Directory.Exists(Application.StartupPath & "\Tasks") Then
-            Directory.CreateDirectory(Application.StartupPath & "\Tasks")
-        End If
-        For Each task As DailyTask In ListOfTasks
-            File.WriteAllText(Application.StartupPath & "\Tasks\" & task.ID.ToString() & ".json", task.ToJson())
-        Next
+        If Closable Then
+            If Not Directory.Exists(Application.StartupPath & "\Tasks") Then
+                Directory.CreateDirectory(Application.StartupPath & "\Tasks")
+            End If
+            For Each task As DailyTask In ListOfTasks
+                File.WriteAllText(Application.StartupPath & "\Tasks\" & task.ID.ToString() & ".json", task.ToJson())
+            Next
 
-        If Not Directory.Exists(Application.StartupPath & "\The Past") Then
-            Directory.CreateDirectory(Application.StartupPath & "\The Past")
+            If Not Directory.Exists(Application.StartupPath & "\The Past") Then
+                Directory.CreateDirectory(Application.StartupPath & "\The Past")
+            End If
+            For Each task As DailyTask In ListOfPasts
+                File.WriteAllText(Application.StartupPath & "\The Past\" & task.ID.ToString() & ".json", task.ToJson())
+            Next
+        Else
+            e.Cancel = True
+            WindowState = FormWindowState.Minimized
+            Hide()
         End If
-        For Each task As DailyTask In ListOfPasts
-            File.WriteAllText(Application.StartupPath & "\The Past\" & task.ID.ToString() & ".json", task.ToJson())
-        Next
     End Sub
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -426,11 +434,26 @@ Public Class MainForm
     End Sub
 
     Private Sub Remind(ByRef TheTask As DailyTask)
-        If Reminder.Open Then
+        If ReminderWindow.Open Then
             TheTask.Postpone()
         Else
-            Reminder.Task = TheTask
-            Show()
+            ReminderWindow.Task = TheTask
+            ReminderWindow.Show()
         End If
+    End Sub
+
+    Private Sub AppIcon_DoubleClick(sender As Object, e As EventArgs) Handles AppIcon.DoubleClick
+        WindowState = FormWindowState.Normal
+        Show()
+    End Sub
+
+    Private Sub ShowToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ShowToolStripMenuItem.Click
+        WindowState = FormWindowState.Normal
+        Show()
+    End Sub
+
+    Private Sub QuitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QuitToolStripMenuItem.Click
+        Closable = True
+        Close()
     End Sub
 End Class

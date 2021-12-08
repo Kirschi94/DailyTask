@@ -70,12 +70,16 @@ Partial Class MainForm
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader()
         Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
         Me.AppIcon = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.ContextMenuStrip_Icon = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_LVCT.SuspendLayout()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
         Me.CreateNewTask.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.PastTasks.SuspendLayout()
+        Me.ContextMenuStrip_Icon.SuspendLayout()
         Me.SuspendLayout()
         '
         'ListView_CurrentTasks
@@ -509,9 +513,28 @@ Partial Class MainForm
         '
         'AppIcon
         '
+        Me.AppIcon.ContextMenuStrip = Me.ContextMenuStrip_Icon
         Me.AppIcon.Icon = CType(resources.GetObject("AppIcon.Icon"), System.Drawing.Icon)
         Me.AppIcon.Text = "DailyTask"
         Me.AppIcon.Visible = True
+        '
+        'ContextMenuStrip_Icon
+        '
+        Me.ContextMenuStrip_Icon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.QuitToolStripMenuItem})
+        Me.ContextMenuStrip_Icon.Name = "ContextMenuStrip_Icon"
+        Me.ContextMenuStrip_Icon.Size = New System.Drawing.Size(181, 70)
+        '
+        'ShowToolStripMenuItem
+        '
+        Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ShowToolStripMenuItem.Text = "Show"
+        '
+        'QuitToolStripMenuItem
+        '
+        Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'MainForm
         '
@@ -532,6 +555,7 @@ Partial Class MainForm
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.PastTasks.ResumeLayout(False)
+        Me.ContextMenuStrip_Icon.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -582,4 +606,7 @@ Partial Class MainForm
     Friend WithEvents ColumnHeader3 As ColumnHeader
     Friend WithEvents ColumnHeader4 As ColumnHeader
     Friend WithEvents AppIcon As NotifyIcon
+    Friend WithEvents ContextMenuStrip_Icon As ContextMenuStrip
+    Friend WithEvents ShowToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents QuitToolStripMenuItem As ToolStripMenuItem
 End Class
