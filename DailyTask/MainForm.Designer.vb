@@ -62,13 +62,13 @@ Partial Class MainForm
         Me.ListView_AllTasks = New System.Windows.Forms.ListView()
         Me.Column_LVNT_Task = New System.Windows.Forms.ColumnHeader()
         Me.Column_LVNT_NextDue = New System.Windows.Forms.ColumnHeader()
-        Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
         Me.PastTasks = New System.Windows.Forms.TabPage()
         Me.ListView_PastTasks = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader()
+        Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
         Me.ContextMenuStrip_LVCT.SuspendLayout()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
@@ -454,11 +454,6 @@ Partial Class MainForm
         Me.Column_LVNT_NextDue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.Column_LVNT_NextDue.Width = 130
         '
-        'Timer_CheckTasks
-        '
-        Me.Timer_CheckTasks.Enabled = True
-        Me.Timer_CheckTasks.Interval = 5000
-        '
         'PastTasks
         '
         Me.PastTasks.Controls.Add(Me.ListView_PastTasks)
@@ -505,6 +500,11 @@ Partial Class MainForm
         Me.ColumnHeader4.Text = "Done"
         Me.ColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.ColumnHeader4.Width = 100
+        '
+        'Timer_CheckTasks
+        '
+        Me.Timer_CheckTasks.Enabled = True
+        Me.Timer_CheckTasks.Interval = 5000
         '
         'MainForm
         '

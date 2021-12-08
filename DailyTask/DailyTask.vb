@@ -116,4 +116,9 @@ Public Class DailyTask
     Public Function ToJson()
         Return FromClass(Me)
     End Function
+
+    Public Function Clone()
+        Dim TempTask As New DailyTask(_id, _Description, _Time, _Weekdays, _Done, _NextDue, _OriginalDue)
+        Return TempTask
+    End Function
 End Class

@@ -5,8 +5,12 @@ Imports Newtonsoft.Json
 
 Public Class MainForm
     Private LastText As String = "00:00"
-    Private ListOfTasks As New List(Of DailyTask)()
+    Public Shared ListOfTasks As New List(Of DailyTask)()
     Private ListOfPasts As New List(Of DailyTask)()
+    Private ListOfOverdueTasks As New List(Of DailyTask)()
+    Private LastCheck As String = Stgs.GetDayOfYearFormatted()
+    Private Overdue As Boolean = False
+
     Private Sub RadioButton_OnTheseDays_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_OnTheseDays.CheckedChanged
         If RadioButton_OnTheseDays.Checked Then RadioButton_EveryDay.Checked = False
         Change_Checkboxes(True)
@@ -150,7 +154,7 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub BuildListview_AllTasks()
+    Public Sub BuildListview_AllTasks()
         ListView_AllTasks.Items.Clear()
 
         For Each TheItem In ListOfTasks
@@ -161,11 +165,11 @@ Public Class MainForm
         Next
     End Sub
 
-    Private Sub BuildListview_CurrentTasks()
+    Public Sub BuildListview_CurrentTasks()
         ListView_CurrentTasks.Items.Clear()
 
         For Each TheItem In ListOfTasks
-            If TheItem._Done = "🗸" AndAlso CheckBox_ShowExecutedTasks.Checked = False Then
+            If TheItem._Done = stgs.Done AndAlso CheckBox_ShowExecutedTasks.Checked = False Then
                 'Do nothing
             Else
                 If CheckBox_ShowNotToday.Checked = False AndAlso Not (TheItem.NextDue.Year = DateTime.Now.Year AndAlso TheItem.NextDue.DayOfYear = DateTime.Now.DayOfYear) Then
@@ -174,12 +178,12 @@ Public Class MainForm
                     ListView_CurrentTasks.ShowGroups = CheckBox_ShowNotToday.Checked
 
                     With ListView_CurrentTasks.Items.Add(TheItem.Description)
-                        .SubItems.Add(TheItem.NextDue.ToString("dd/MM/yyyy, HH:mm"))
+                        .SubItems.Add(TheItem.OriginalDue.ToString("dd/MM/yyyy, HH:mm"))
                         .SubItems.Add(TheItem._Done)
                         .SubItems.Add(TheItem.ID)
 
                         'GroupView somehow doesn't work, still need to fix this
-                        Dim TempGroup As New ListViewGroup(TheItem.NextDue.ToString("dd/MM/yyyy"))
+                        Dim TempGroup As New ListViewGroup(TheItem.OriginalDue.ToString("dd/MM/yyyy"))
                         If Not ListView_CurrentTasks.Groups.Contains(TempGroup) Then
                             ListView_CurrentTasks.Groups.Add(TempGroup)
                         End If
@@ -302,13 +306,13 @@ Public Class MainForm
         MarkAsQMToolStripMenuItem.Checked = False
         MarkAsUnfulfilledToolStripMenuItem.Checked = False
         Select Case TheListView.SelectedItems.Item(0).SubItems.Item(2).Text
-            Case "🗸"
+            Case stgs.Done
                 MarkAsDoneToolStripMenuItem.Checked = True
-            Case "x"
+            Case stgs.NotDone
                 MarkAsXToolStripMenuItem.Checked = True
-            Case "?"
+            Case stgs.Unclear
                 MarkAsQMToolStripMenuItem.Checked = True
-            Case "o"
+            Case stgs.Pending
                 MarkAsUnfulfilledToolStripMenuItem.Checked = True
         End Select
     End Sub
@@ -361,5 +365,49 @@ Public Class MainForm
             Directory.CreateDirectory(Application.StartupPath & "\Tasks")
         End If
         BuildListview_PastTasks()
+    End Sub
+
+    Private Sub Timer_CheckTasks_Tick(sender As Object, e As EventArgs) Handles Timer_CheckTasks.Tick
+        For Each TheTask In ListOfTasks
+            If TheTask.NextDue <= Date.Now Then
+                Remind(TheTask)
+            End If
+        Next
+        If (Not LastCheck = Stgs.GetDayOfYearFormatted()) OrElse Overdue Then
+            'TheItem.OriginalDue.ToString("dd/MM/yyyy, HH:mm")
+            For Each TheItem In ListOfTasks
+                If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                    ListOfPasts.Add(TheItem.Clone())
+                    TheItem.GetNextDue()
+                End If
+                If TheItem.OriginalDue < Date.Now AndAlso TheItem.NextDue > Date.Now Then
+                    Overdue = True
+                    ListOfOverdueTasks.Add(TheItem)
+                End If
+            Next
+        End If
+        If Overdue Then
+            For Each TheItem In ListOfOverdueTasks
+                If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                    ListOfPasts.Add(TheItem.Clone())
+                    TheItem.GetNextDue()
+                    ListOfOverdueTasks.Remove(TheItem)
+                End If
+            Next
+            If ListOfOverdueTasks.Count <= 0 Then
+                Overdue = False
+            End If
+        Else
+            LastCheck = Stgs.GetDayOfYearFormatted()
+        End If
+    End Sub
+
+    Private Sub Remind(ByRef TheTask As DailyTask)
+        If Reminder.Open Then
+            TheTask.Postpone()
+        Else
+            Reminder.Task = TheTask
+            Show()
+        End If
     End Sub
 End Class

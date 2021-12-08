@@ -22,20 +22,21 @@ Partial Class Reminder
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Reminder))
+        Me.Label_TaskText = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'Label1
+        'Label_TaskText
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(53, 15)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Task Text"
+        Me.Label_TaskText.AutoSize = True
+        Me.Label_TaskText.Location = New System.Drawing.Point(12, 9)
+        Me.Label_TaskText.Name = "Label_TaskText"
+        Me.Label_TaskText.Size = New System.Drawing.Size(53, 15)
+        Me.Label_TaskText.TabIndex = 0
+        Me.Label_TaskText.Text = "Task Text"
         '
         'Button1
         '
@@ -72,10 +73,12 @@ Partial Class Reminder
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Label_TaskText)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "Reminder"
+        Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Reminder"
         Me.TopMost = True
@@ -84,7 +87,7 @@ Partial Class Reminder
 
     End Sub
 
-    Friend WithEvents Label1 As Label
+    Friend WithEvents Label_TaskText As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Button3 As Button
