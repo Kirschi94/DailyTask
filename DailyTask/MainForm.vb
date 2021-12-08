@@ -6,6 +6,7 @@ Imports Newtonsoft.Json
 Public Class MainForm
     Private LastText As String = "00:00"
     Private ListOfTasks As New List(Of DailyTask)()
+    Private ListOfPasts As New List(Of DailyTask)()
     Private Sub RadioButton_OnTheseDays_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_OnTheseDays.CheckedChanged
         If RadioButton_OnTheseDays.Checked Then RadioButton_EveryDay.Checked = False
         Change_Checkboxes(True)
@@ -170,13 +171,51 @@ Public Class MainForm
                 If CheckBox_ShowNotToday.Checked = False AndAlso Not (TheItem.NextDue.Year = DateTime.Now.Year AndAlso TheItem.NextDue.DayOfYear = DateTime.Now.DayOfYear) Then
                     'Do nothing
                 Else
+                    ListView_CurrentTasks.ShowGroups = CheckBox_ShowNotToday.Checked
+
                     With ListView_CurrentTasks.Items.Add(TheItem.Description)
                         .SubItems.Add(TheItem.NextDue.ToString("dd/MM/yyyy, HH:mm"))
                         .SubItems.Add(TheItem._Done)
                         .SubItems.Add(TheItem.ID)
+
+                        'GroupView somehow doesn't work, still need to fix this
+                        Dim TempGroup As New ListViewGroup(TheItem.NextDue.ToString("dd/MM/yyyy"))
+                        If Not ListView_CurrentTasks.Groups.Contains(TempGroup) Then
+                            ListView_CurrentTasks.Groups.Add(TempGroup)
+                        End If
+                        .Group = TempGroup
                     End With
                 End If
             End If
+        Next
+    End Sub
+
+    Private Sub BuildListview_PastTasks()
+        If Directory.Exists(Application.StartupPath & "\The Past") Then
+            Dim files() As String = Directory.GetFiles(Application.StartupPath & "\The Past")
+            For Each file As String In files
+                Dim TempTask As DailyTask = GetDataFromJsonFile(file)
+                TempTask.GetNextDue()
+                ListOfPasts.Add(TempTask)
+            Next
+        Else
+            Directory.CreateDirectory(Application.StartupPath & "\The Past")
+        End If
+
+        ListView_PastTasks.Items.Clear()
+        For Each TheItem In ListOfPasts
+            With ListView_PastTasks.Items.Add(TheItem.Description)
+                .SubItems.Add(TheItem.OriginalDue.ToString("dd/MM/yyyy, HH:mm"))
+                .SubItems.Add(TheItem.NextDue.ToString("dd/MM/yyyy, HH:mm"))
+                .SubItems.Add(TheItem._Done)
+                .SubItems.Add(TheItem.ID)
+
+                Dim TempGroup As New ListViewGroup(TheItem.OriginalDue.ToString("dd/MM/yyyy"))
+                If Not ListView_CurrentTasks.Groups.Contains(TempGroup) Then
+                    ListView_CurrentTasks.Groups.Add(TempGroup)
+                End If
+                .Group = TempGroup
+            End With
         Next
     End Sub
 
@@ -299,6 +338,13 @@ Public Class MainForm
         For Each task As DailyTask In ListOfTasks
             File.WriteAllText(Application.StartupPath & "\Tasks\" & task.ID.ToString() & ".json", task.ToJson())
         Next
+
+        If Not Directory.Exists(Application.StartupPath & "\The Past") Then
+            Directory.CreateDirectory(Application.StartupPath & "\The Past")
+        End If
+        For Each task As DailyTask In ListOfPasts
+            File.WriteAllText(Application.StartupPath & "\The Past\" & task.ID.ToString() & ".json", task.ToJson())
+        Next
     End Sub
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -314,5 +360,6 @@ Public Class MainForm
         Else
             Directory.CreateDirectory(Application.StartupPath & "\Tasks")
         End If
+        BuildListview_PastTasks()
     End Sub
 End Class

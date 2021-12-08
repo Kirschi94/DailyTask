@@ -2,6 +2,7 @@
 Public Class DailyTask
     Private _Description As String = Nothing
     Private _Time As String = Nothing
+    Private _OriginalDue As DateTime = Nothing
     Private _NextDue As DateTime = Nothing
     Private _Weekdays As Short() = Nothing
     Private _id As Integer = Nothing
@@ -39,6 +40,16 @@ Public Class DailyTask
         End Set
     End Property
 
+    <JsonProperty("originaldue")>
+    Public Property OriginalDue As DateTime
+        Get
+            Return _OriginalDue
+        End Get
+        Private Set(value As DateTime)
+            _OriginalDue = value
+        End Set
+    End Property
+
     <JsonProperty("weekdays")>
     Public Property Weekdays As Short()
         Get
@@ -59,12 +70,14 @@ Public Class DailyTask
         End Set
     End Property
 
-    Public Sub New(ID As Integer, Description As String, Time As String, Optional Weekdays As Short() = Nothing, Optional Done As String = Nothing, Optional NextDue As DateTime = Nothing)
+    Public Sub New(ID As Integer, Description As String, Time As String, Optional Weekdays As Short() = Nothing, Optional Done As String = Nothing,
+                   Optional NextDue As DateTime = Nothing, Optional OriginalDue As DateTime = Nothing)
         _id = ID
         _Description = Description
         _Time = Time
         _Weekdays = Weekdays
         _NextDue = NextDue
+        _OriginalDue = OriginalDue
         _Done = Done
         If _Weekdays Is Nothing Then _Weekdays = New Short() {1, 1, 1, 1, 1, 1, 1}
 
@@ -89,6 +102,7 @@ Public Class DailyTask
             While DateTime.Now > _NextDue OrElse _Weekdays.GetValue(_NextDue.DayOfWeek) = 0
                 _NextDue = DateAdd(DateInterval.Day, 1, _NextDue)
             End While
+            _OriginalDue = _NextDue
         End If
         _Done = "o"
     End Sub
