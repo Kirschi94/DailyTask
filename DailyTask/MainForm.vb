@@ -399,7 +399,7 @@ Public Class MainForm
         End If
 
         For Each TheTask In ListOfTasks
-            If TheTask.NextDue <= Date.Now Then
+            If TheTask.NextDue <= Date.Now AndAlso Not TheTask._Done = Stgs.Done Then
                 Remind(TheTask)
             End If
         Next
