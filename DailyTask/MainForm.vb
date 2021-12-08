@@ -195,21 +195,7 @@ Public Class MainForm
                 End If
             End If
         Next
-
-        Dim counting = 0
-        Dim TempList As New List(Of DailyTask)()
-        For Each TheItem In ListOfTasks
-            If TheItem.OriginalDue.ToString("dd/MM/yyyy") = DateTime.Now.ToString("dd/MM/yyyy") Then
-                TempList.Add(TheItem)
-                If TheItem._Done = Stgs.Done Then counting += 1
-            End If
-        Next
-        If counting = TempList.Count Then
-            AppIcon.Icon = My.Resources.Hell_kein_Schatten_grün
-        ElseIf Not (counting = TempList.Count) And Not Overdue Then
-            AppIcon.Icon = My.Resources.Hell_kein_Schatten
-        End If
-        TempList.Clear()
+        IconCheck()
     End Sub
 
     Private Sub BuildListview_PastTasks()
@@ -239,6 +225,23 @@ Public Class MainForm
                 .Group = TempGroup
             End With
         Next
+    End Sub
+
+    Private Sub IconCheck()
+        Dim counting = 0
+        Dim TempList As New List(Of DailyTask)()
+        For Each TheItem In ListOfTasks
+            If TheItem.OriginalDue.ToString("dd/MM/yyyy") = DateTime.Now.ToString("dd/MM/yyyy") Then
+                TempList.Add(TheItem)
+                If TheItem._Done = Stgs.Done Then counting += 1
+            End If
+        Next
+        If counting = TempList.Count Then
+            AppIcon.Icon = My.Resources.Hell_kein_Schatten_grün
+        ElseIf Not (counting = TempList.Count) And Not Overdue Then
+            AppIcon.Icon = My.Resources.Hell_kein_Schatten
+        End If
+        TempList.Clear()
     End Sub
 
     Private Function GetRandomInt() As Integer
@@ -391,12 +394,15 @@ Public Class MainForm
         BuildListview_PastTasks()
     End Sub
 
+    Private Sub RefreshTheListviews()
+        BuildListview_AllTasks()
+        BuildListview_CurrentTasks()
+        IconCheck()
+        RefreshListviews = False
+    End Sub
+
     Private Sub Timer_CheckTasks_Tick(sender As Object, e As EventArgs) Handles Timer_CheckTasks.Tick
-        If RefreshListviews Then
-            BuildListview_AllTasks()
-            BuildListview_CurrentTasks()
-            RefreshListviews = False
-        End If
+        If RefreshListviews Then RefreshTheListviews()
 
         For Each TheTask In ListOfTasks
             If TheTask.NextDue <= Date.Now AndAlso Not TheTask._Done = Stgs.Done Then
@@ -416,6 +422,7 @@ Public Class MainForm
                     AppIcon.Icon = My.Resources.Hell_kein_Schatten_hellblau
                 End If
             Next
+            RefreshTheListviews()
         End If
         If Overdue Then
             For Each TheItem In ListOfOverdueTasks
@@ -431,6 +438,7 @@ Public Class MainForm
             End If
         Else
             LastCheck = Stgs.GetDayOfYearFormatted()
+            RefreshTheListviews()
         End If
     End Sub
 
