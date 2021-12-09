@@ -198,8 +198,7 @@ Public Class MainForm
         IconCheck()
     End Sub
 
-    Private Sub BuildListview_PastTasks()
-        'Step 1
+    Private Sub LoadListview_PastTasks()
         ListOfPasts.Clear()
         If Directory.Exists(Application.StartupPath & "\The Past") Then
             Dim files() As String = Directory.GetFiles(Application.StartupPath & "\The Past")
@@ -211,8 +210,9 @@ Public Class MainForm
         Else
             Directory.CreateDirectory(Application.StartupPath & "\The Past")
         End If
+    End Sub
 
-        'Step 2
+    Private Sub BuildListview_PastTasks()
         ListView_PastTasks.Items.Clear()
         For Each TheItem In ListOfPasts
             Dim TempGroup As New ListViewGroup(TheItem.OriginalDue.ToString("dd/MM/yyyy"))
@@ -435,6 +435,7 @@ Public Class MainForm
         Else
             Directory.CreateDirectory(Application.StartupPath & "\Tasks")
         End If
+        LoadListview_PastTasks()
         BuildListview_PastTasks()
     End Sub
 
