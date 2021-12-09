@@ -271,26 +271,38 @@ Public Class MainForm
     End Sub
 
     Private Sub DeleteTask(ID As Integer, TheList As List(Of DailyTask))
-        Dim TempTask As New DailyTask(0, "", "00:00")
+        'MessageBox.Show("T-1")
+        Dim TempDue As New DateTime(1920, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0)
+        Dim TempTask As New DailyTask(0, "", "00:00", {1, 1, 1, 1, 1, 1, 1}, Stgs.Done, TempDue)
+        'MessageBox.Show("T0")
         For Each TheItem In TheList
+            'MessageBox.Show("T0.0")
             If TheItem.ID = ID Then
-                TheList.Remove(TheItem)
                 TempTask = TheItem.Clone()
+                TheList.Remove(TheItem)
                 Exit For
             End If
         Next
+        'MessageBox.Show("T1")
         If TheList.Equals(ListOfTasks) Then
-            If File.Exists(Application.StartupPath & "\The Past\" & ID.ToString() & ".json") Then
-                File.Delete(Application.StartupPath & "\The Past\" & ID.ToString() & ".json")
+            'MessageBox.Show("T2.1")
+            If File.Exists(Application.StartupPath & "\Tasks\" & ID.ToString() & ".json") Then
+                File.Delete(Application.StartupPath & "\Tasks\" & ID.ToString() & ".json")
             End If
+            'MessageBox.Show("T2.2")
             BuildListview_CurrentTasks()
+            'MessageBox.Show("T2.3")
             BuildListview_AllTasks()
-        ElseIf TheList.Equals(ListOfPasts) And TempTask.NextDue.Year > 1900 Then
+            'MessageBox.Show("T2.4")
+        ElseIf TheList.Equals(ListOfPasts) And TempTask.NextDue.Year > 2000 Then
+            'MessageBox.Show("T3.1")
             If File.Exists(Application.StartupPath & "\The Past\" & TempTask.ID.ToString() & "_" & TempTask.OriginalDue.ToString("dd/MM/yyyy") & ".json") Then
                 File.Delete(Application.StartupPath & "\The Past\" & TempTask.ID.ToString() & "_" & TempTask.OriginalDue.ToString("dd/MM/yyyy") & ".json")
                 'Application.StartupPath & "\The Past\" & task.ID.ToString() & "_" & task.OriginalDue.ToString("dd/MM/yyyy") & ".json", task.ToJson()
             End If
+            'MessageBox.Show("T3.2")
             BuildListview_PastTasks()
+            'MessageBox.Show("T3.3")
         End If
     End Sub
 
