@@ -204,7 +204,7 @@ Public Class MainForm
             Dim files() As String = Directory.GetFiles(Application.StartupPath & "\The Past")
             For Each file As String In files
                 Dim TempTask As DailyTask = GetDataFromJsonFile(file)
-                TempTask.GetNextDue()
+                'TempTask.GetNextDue()
                 ListOfPasts.Add(TempTask)
             Next
         Else
