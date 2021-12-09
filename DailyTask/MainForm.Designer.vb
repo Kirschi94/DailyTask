@@ -62,36 +62,36 @@ Partial Class MainForm
         Me.ListView_AllTasks = New System.Windows.Forms.ListView()
         Me.Column_LVNT_Task = New System.Windows.Forms.ColumnHeader()
         Me.Column_LVNT_NextDue = New System.Windows.Forms.ColumnHeader()
+        Me.ContextMenuStrip_LVAT = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.EditTaskToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteTaskToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.PastTasks = New System.Windows.Forms.TabPage()
         Me.ListView_PastTasks = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader()
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader()
-        Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
-        Me.AppIcon = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.ContextMenuStrip_Icon = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ContextMenuStrip_LVAT = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ContextMenuStrip_LVPT = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.EditTaskToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeleteTaskToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeleteTaskToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Timer_CheckTasks = New System.Windows.Forms.Timer(Me.components)
+        Me.AppIcon = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.ContextMenuStrip_Icon = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_LVCT.SuspendLayout()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
         Me.CreateNewTask.SuspendLayout()
         Me.Panel1.SuspendLayout()
-        Me.PastTasks.SuspendLayout()
-        Me.ContextMenuStrip_Icon.SuspendLayout()
         Me.ContextMenuStrip_LVAT.SuspendLayout()
+        Me.PastTasks.SuspendLayout()
         Me.ContextMenuStrip_LVPT.SuspendLayout()
+        Me.ContextMenuStrip_Icon.SuspendLayout()
         Me.SuspendLayout()
         '
         'ListView_CurrentTasks
@@ -140,25 +140,25 @@ Partial Class MainForm
         'MarkAsDoneToolStripMenuItem
         '
         Me.MarkAsDoneToolStripMenuItem.Name = "MarkAsDoneToolStripMenuItem"
-        Me.MarkAsDoneToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MarkAsDoneToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
         Me.MarkAsDoneToolStripMenuItem.Text = "Mark as '🗸'"
         '
         'MarkAsXToolStripMenuItem
         '
         Me.MarkAsXToolStripMenuItem.Name = "MarkAsXToolStripMenuItem"
-        Me.MarkAsXToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MarkAsXToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
         Me.MarkAsXToolStripMenuItem.Text = "Mark as 'x'"
         '
         'MarkAsQMToolStripMenuItem
         '
         Me.MarkAsQMToolStripMenuItem.Name = "MarkAsQMToolStripMenuItem"
-        Me.MarkAsQMToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MarkAsQMToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
         Me.MarkAsQMToolStripMenuItem.Text = "Mark as '?'"
         '
         'MarkAsUnfulfilledToolStripMenuItem
         '
         Me.MarkAsUnfulfilledToolStripMenuItem.Name = "MarkAsUnfulfilledToolStripMenuItem"
-        Me.MarkAsUnfulfilledToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MarkAsUnfulfilledToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
         Me.MarkAsUnfulfilledToolStripMenuItem.Text = "Mark as 'o'"
         '
         'EditTaskToolStripMenuItem
@@ -472,6 +472,24 @@ Partial Class MainForm
         Me.Column_LVNT_NextDue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.Column_LVNT_NextDue.Width = 130
         '
+        'ContextMenuStrip_LVAT
+        '
+        Me.ContextMenuStrip_LVAT.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditTaskToolStripMenuItem1, Me.DeleteTaskToolStripMenuItem1})
+        Me.ContextMenuStrip_LVAT.Name = "ContextMenuStrip_LVAT"
+        Me.ContextMenuStrip_LVAT.Size = New System.Drawing.Size(132, 48)
+        '
+        'EditTaskToolStripMenuItem1
+        '
+        Me.EditTaskToolStripMenuItem1.Name = "EditTaskToolStripMenuItem1"
+        Me.EditTaskToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.EditTaskToolStripMenuItem1.Text = "Edit task"
+        '
+        'DeleteTaskToolStripMenuItem1
+        '
+        Me.DeleteTaskToolStripMenuItem1.Name = "DeleteTaskToolStripMenuItem1"
+        Me.DeleteTaskToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.DeleteTaskToolStripMenuItem1.Text = "Delete task"
+        '
         'PastTasks
         '
         Me.PastTasks.Controls.Add(Me.ListView_PastTasks)
@@ -520,6 +538,49 @@ Partial Class MainForm
         Me.ColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.ColumnHeader4.Width = 100
         '
+        'ContextMenuStrip_LVPT
+        '
+        Me.ContextMenuStrip_LVPT.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.DeleteTaskToolStripMenuItem2})
+        Me.ContextMenuStrip_LVPT.Name = "ContextMenuStrip_LVPT"
+        Me.ContextMenuStrip_LVPT.Size = New System.Drawing.Size(181, 70)
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5})
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(131, 22)
+        Me.ToolStripMenuItem1.Text = "Mark task"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem2.Text = "Mark as '🗸'"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem3.Text = "Mark as 'x'"
+        '
+        'ToolStripMenuItem4
+        '
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem4.Text = "Mark as '?'"
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem5.Text = "Mark as 'o'"
+        '
+        'DeleteTaskToolStripMenuItem2
+        '
+        Me.DeleteTaskToolStripMenuItem2.Name = "DeleteTaskToolStripMenuItem2"
+        Me.DeleteTaskToolStripMenuItem2.Size = New System.Drawing.Size(131, 22)
+        Me.DeleteTaskToolStripMenuItem2.Text = "Delete task"
+        '
         'Timer_CheckTasks
         '
         Me.Timer_CheckTasks.Enabled = True
@@ -550,67 +611,6 @@ Partial Class MainForm
         Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.QuitToolStripMenuItem.Text = "Quit"
         '
-        'ContextMenuStrip_LVAT
-        '
-        Me.ContextMenuStrip_LVAT.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditTaskToolStripMenuItem1, Me.DeleteTaskToolStripMenuItem1})
-        Me.ContextMenuStrip_LVAT.Name = "ContextMenuStrip_LVAT"
-        Me.ContextMenuStrip_LVAT.Size = New System.Drawing.Size(132, 48)
-        '
-        'ContextMenuStrip_LVPT
-        '
-        Me.ContextMenuStrip_LVPT.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.DeleteTaskToolStripMenuItem2})
-        Me.ContextMenuStrip_LVPT.Name = "ContextMenuStrip_LVPT"
-        Me.ContextMenuStrip_LVPT.Size = New System.Drawing.Size(132, 48)
-        '
-        'EditTaskToolStripMenuItem1
-        '
-        Me.EditTaskToolStripMenuItem1.Name = "EditTaskToolStripMenuItem1"
-        Me.EditTaskToolStripMenuItem1.Size = New System.Drawing.Size(131, 22)
-        Me.EditTaskToolStripMenuItem1.Text = "Edit task"
-        '
-        'DeleteTaskToolStripMenuItem1
-        '
-        Me.DeleteTaskToolStripMenuItem1.Name = "DeleteTaskToolStripMenuItem1"
-        Me.DeleteTaskToolStripMenuItem1.Size = New System.Drawing.Size(131, 22)
-        Me.DeleteTaskToolStripMenuItem1.Text = "Delete task"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5})
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
-        Me.ToolStripMenuItem1.Text = "Mark task"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
-        Me.ToolStripMenuItem2.Text = "Mark as '🗸'"
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(180, 22)
-        Me.ToolStripMenuItem3.Text = "Mark as 'x'"
-        '
-        'ToolStripMenuItem4
-        '
-        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(180, 22)
-        Me.ToolStripMenuItem4.Text = "Mark as '?'"
-        '
-        'ToolStripMenuItem5
-        '
-        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(180, 22)
-        Me.ToolStripMenuItem5.Text = "Mark as 'o'"
-        '
-        'DeleteTaskToolStripMenuItem2
-        '
-        Me.DeleteTaskToolStripMenuItem2.Name = "DeleteTaskToolStripMenuItem2"
-        Me.DeleteTaskToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
-        Me.DeleteTaskToolStripMenuItem2.Text = "Delete task"
-        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -629,10 +629,10 @@ Partial Class MainForm
         Me.CreateNewTask.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        Me.PastTasks.ResumeLayout(False)
-        Me.ContextMenuStrip_Icon.ResumeLayout(False)
         Me.ContextMenuStrip_LVAT.ResumeLayout(False)
+        Me.PastTasks.ResumeLayout(False)
         Me.ContextMenuStrip_LVPT.ResumeLayout(False)
+        Me.ContextMenuStrip_Icon.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub

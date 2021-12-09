@@ -365,20 +365,50 @@ Public Class MainForm
         DeleteTaskToolStripMenuItem.Enabled = TheValue
     End Sub
 
-    Private Sub CheckContextMenuBasedOnSelectedTask(TheListView As ListView)
+    Private Sub LVAT_ContextMenuItemsEnabled(TheValue As Boolean)
+        EditTaskToolStripMenuItem1.Enabled = TheValue
+        DeleteTaskToolStripMenuItem1.Enabled = TheValue
+    End Sub
+
+    Private Sub LVPT_ContextMenuItemsEnabled(TheValue As Boolean)
+        ToolStripMenuItem1.Enabled = TheValue
+        ToolStripMenuItem2.Enabled = TheValue
+        ToolStripMenuItem3.Enabled = TheValue
+        ToolStripMenuItem4.Enabled = TheValue
+        ToolStripMenuItem5.Enabled = TheValue
+        DeleteTaskToolStripMenuItem2.Enabled = TheValue
+    End Sub
+
+    Private Sub LVCT_CheckContextMenuBasedOnSelectedTask()
         MarkAsDoneToolStripMenuItem.Checked = False
         MarkAsXToolStripMenuItem.Checked = False
         MarkAsQMToolStripMenuItem.Checked = False
         MarkAsUnfulfilledToolStripMenuItem.Checked = False
-        Select Case TheListView.SelectedItems.Item(0).SubItems.Item(2).Text
-            Case stgs.Done
+        Select Case ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(2).Text
+            Case Stgs.Done
                 MarkAsDoneToolStripMenuItem.Checked = True
-            Case stgs.NotDone
+            Case Stgs.NotDone
                 MarkAsXToolStripMenuItem.Checked = True
-            Case stgs.Unclear
+            Case Stgs.Unclear
                 MarkAsQMToolStripMenuItem.Checked = True
-            Case stgs.Pending
+            Case Stgs.Pending
                 MarkAsUnfulfilledToolStripMenuItem.Checked = True
+        End Select
+    End Sub
+    Private Sub LVPT_CheckContextMenuBasedOnSelectedTask()
+        ToolStripMenuItem2.Checked = False
+        ToolStripMenuItem3.Checked = False
+        ToolStripMenuItem4.Checked = False
+        ToolStripMenuItem5.Checked = False
+        Select Case ListView_PastTasks.SelectedItems.Item(0).SubItems.Item(4).Text
+            Case Stgs.Done
+                ToolStripMenuItem2.Checked = True
+            Case Stgs.NotDone
+                ToolStripMenuItem3.Checked = True
+            Case Stgs.Unclear
+                ToolStripMenuItem4.Checked = True
+            Case Stgs.Pending
+                ToolStripMenuItem5.Checked = True
         End Select
     End Sub
 
@@ -387,7 +417,7 @@ Public Class MainForm
             LVCT_ContextMenuItemsEnabled(False)
         Else
             LVCT_ContextMenuItemsEnabled(True)
-            CheckContextMenuBasedOnSelectedTask(ListView_CurrentTasks)
+            LVCT_CheckContextMenuBasedOnSelectedTask()
         End If
     End Sub
 
@@ -564,5 +594,26 @@ Public Class MainForm
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub EditTaskToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles EditTaskToolStripMenuItem1.Click
+
+    End Sub
+
+    Private Sub ContextMenuStrip_LVAT_Opening(sender As Object, e As CancelEventArgs) Handles ContextMenuStrip_LVAT.Opening
+        If ListView_AllTasks.SelectedItems.Count <= 0 Then
+            LVAT_ContextMenuItemsEnabled(False)
+        Else
+            LVAT_ContextMenuItemsEnabled(True)
+        End If
+    End Sub
+
+    Private Sub ContextMenuStrip_LVPT_Opening(sender As Object, e As CancelEventArgs) Handles ContextMenuStrip_LVPT.Opening
+        If ListView_PastTasks.SelectedItems.Count <= 0 Then
+            LVPT_ContextMenuItemsEnabled(False)
+        Else
+            LVPT_ContextMenuItemsEnabled(True)
+            LVPT_CheckContextMenuBasedOnSelectedTask()
+        End If
     End Sub
 End Class
