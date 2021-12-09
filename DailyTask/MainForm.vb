@@ -199,6 +199,8 @@ Public Class MainForm
     End Sub
 
     Private Sub BuildListview_PastTasks()
+        ListView_PastTasks.Items.Clear()
+
         If Directory.Exists(Application.StartupPath & "\The Past") Then
             Dim files() As String = Directory.GetFiles(Application.StartupPath & "\The Past")
             For Each file As String In files
