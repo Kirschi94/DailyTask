@@ -84,10 +84,10 @@ Public Class DailyTask
         Dim Times As String() = Time.Split(":")
         Dim Due As New DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Int(Times.GetValue(0)), Int(Times.GetValue(1)), 0)
         If Done Is Nothing Then
-            If DateTime.Now > Due Then
-                Done = "x"
-            Else
-                Done = "o"
+            If DateTime.Now > Due And Not _Done = Stgs.Done Then
+                _Done = "x"
+            ElseIf Not _Done = Stgs.Done Then
+                _Done = "o"
             End If
         End If
 
