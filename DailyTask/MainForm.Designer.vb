@@ -38,7 +38,6 @@ Partial Class MainForm
         Me.DeleteTaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabControl_Main = New System.Windows.Forms.TabControl()
         Me.CurrentTasks = New System.Windows.Forms.TabPage()
-        Me.CheckBox_ShowExecutedTasks = New System.Windows.Forms.CheckBox()
         Me.CheckBox_ShowNotToday = New System.Windows.Forms.CheckBox()
         Me.CreateNewTask = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -189,7 +188,6 @@ Partial Class MainForm
         '
         'CurrentTasks
         '
-        Me.CurrentTasks.Controls.Add(Me.CheckBox_ShowExecutedTasks)
         Me.CurrentTasks.Controls.Add(Me.CheckBox_ShowNotToday)
         Me.CurrentTasks.Controls.Add(Me.ListView_CurrentTasks)
         Me.CurrentTasks.Location = New System.Drawing.Point(4, 24)
@@ -199,18 +197,6 @@ Partial Class MainForm
         Me.CurrentTasks.TabIndex = 0
         Me.CurrentTasks.Text = "Current Tasks"
         Me.CurrentTasks.UseVisualStyleBackColor = True
-        '
-        'CheckBox_ShowExecutedTasks
-        '
-        Me.CheckBox_ShowExecutedTasks.AutoSize = True
-        Me.CheckBox_ShowExecutedTasks.Checked = True
-        Me.CheckBox_ShowExecutedTasks.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox_ShowExecutedTasks.Location = New System.Drawing.Point(717, 31)
-        Me.CheckBox_ShowExecutedTasks.Name = "CheckBox_ShowExecutedTasks"
-        Me.CheckBox_ShowExecutedTasks.Size = New System.Drawing.Size(135, 19)
-        Me.CheckBox_ShowExecutedTasks.TabIndex = 2
-        Me.CheckBox_ShowExecutedTasks.Text = "Show executed tasks"
-        Me.CheckBox_ShowExecutedTasks.UseVisualStyleBackColor = True
         '
         'CheckBox_ShowNotToday
         '
@@ -481,13 +467,13 @@ Partial Class MainForm
         'EditTaskToolStripMenuItem1
         '
         Me.EditTaskToolStripMenuItem1.Name = "EditTaskToolStripMenuItem1"
-        Me.EditTaskToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.EditTaskToolStripMenuItem1.Size = New System.Drawing.Size(131, 22)
         Me.EditTaskToolStripMenuItem1.Text = "Edit task"
         '
         'DeleteTaskToolStripMenuItem1
         '
         Me.DeleteTaskToolStripMenuItem1.Name = "DeleteTaskToolStripMenuItem1"
-        Me.DeleteTaskToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.DeleteTaskToolStripMenuItem1.Size = New System.Drawing.Size(131, 22)
         Me.DeleteTaskToolStripMenuItem1.Text = "Delete task"
         '
         'PastTasks
@@ -542,7 +528,7 @@ Partial Class MainForm
         '
         Me.ContextMenuStrip_LVPT.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.DeleteTaskToolStripMenuItem2})
         Me.ContextMenuStrip_LVPT.Name = "ContextMenuStrip_LVPT"
-        Me.ContextMenuStrip_LVPT.Size = New System.Drawing.Size(181, 70)
+        Me.ContextMenuStrip_LVPT.Size = New System.Drawing.Size(132, 48)
         '
         'ToolStripMenuItem1
         '
@@ -554,25 +540,25 @@ Partial Class MainForm
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(133, 22)
         Me.ToolStripMenuItem2.Text = "Mark as '🗸'"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(133, 22)
         Me.ToolStripMenuItem3.Text = "Mark as 'x'"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(133, 22)
         Me.ToolStripMenuItem4.Text = "Mark as '?'"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(133, 22)
         Me.ToolStripMenuItem5.Text = "Mark as 'o'"
         '
         'DeleteTaskToolStripMenuItem2
@@ -667,7 +653,6 @@ Partial Class MainForm
     Friend WithEvents Button_CreateTask As Button
     Friend WithEvents Timer_CheckTasks As Timer
     Friend WithEvents Column_LVCT_Done As ColumnHeader
-    Friend WithEvents CheckBox_ShowExecutedTasks As CheckBox
     Friend WithEvents ContextMenuStrip_LVCT As ContextMenuStrip
     Friend WithEvents MarkTaskToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MarkAsDoneToolStripMenuItem As ToolStripMenuItem

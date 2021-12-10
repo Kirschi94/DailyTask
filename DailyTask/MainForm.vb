@@ -172,7 +172,7 @@ Public Class MainForm
         ListView_CurrentTasks.Items.Clear()
 
         For Each TheItem In ListOfTasks
-            If TheItem._Done = stgs.Done AndAlso CheckBox_ShowExecutedTasks.Checked = False Then
+            If TheItem._Done = Stgs.Done Then
                 'Do nothing
             Else
                 If CheckBox_ShowNotToday.Checked = False AndAlso Not (TheItem.NextDue.Year = DateTime.Now.Year AndAlso TheItem.NextDue.DayOfYear = DateTime.Now.DayOfYear) Then
@@ -257,7 +257,7 @@ Public Class MainForm
         BuildListview_CurrentTasks()
     End Sub
 
-    Private Sub CheckBox_ShowExecutedTasks_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_ShowExecutedTasks.CheckedChanged
+    Private Sub CheckBox_ShowExecutedTasks_CheckedChanged(sender As Object, e As EventArgs)
         BuildListview_CurrentTasks()
     End Sub
 
