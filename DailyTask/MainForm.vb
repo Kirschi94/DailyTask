@@ -480,7 +480,7 @@ Public Class MainForm
         If RefreshListviews Then RefreshTheListviews()
 
         For Each TheTask In ListOfTasks
-            If TheTask.NextDue <= Date.Now AndAlso Not TheTask._Done = Stgs.Done Then
+            If TheTask.NextDue <= Date.Now AndAlso TheTask._Done = Stgs.Pending Then
                 Remind(TheTask)
             End If
         Next

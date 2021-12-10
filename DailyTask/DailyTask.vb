@@ -111,8 +111,8 @@ Public Class DailyTask
 
     Public Sub Postpone()
         While DateTime.Now > _NextDue
-            Dim Due As New DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0)
-            _NextDue = DateAdd(DateInterval.Minute, Stgs.PostponingInMinutes, Due)
+            'Dim Due As New DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0)
+            _NextDue = DateAdd(DateInterval.Minute, Stgs.PostponingInMinutes, DateTime.Now)
         End While
     End Sub
 
