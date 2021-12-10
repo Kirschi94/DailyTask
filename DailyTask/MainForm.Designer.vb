@@ -82,6 +82,8 @@ Partial Class MainForm
         Me.ContextMenuStrip_Icon = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Label_MajorError = New System.Windows.Forms.Label()
+        Me.CheckBox_ShowExecutedTasks = New System.Windows.Forms.CheckBox()
         Me.ContextMenuStrip_LVCT.SuspendLayout()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
@@ -188,6 +190,7 @@ Partial Class MainForm
         '
         'CurrentTasks
         '
+        Me.CurrentTasks.Controls.Add(Me.CheckBox_ShowExecutedTasks)
         Me.CurrentTasks.Controls.Add(Me.CheckBox_ShowNotToday)
         Me.CurrentTasks.Controls.Add(Me.ListView_CurrentTasks)
         Me.CurrentTasks.Location = New System.Drawing.Point(4, 24)
@@ -597,11 +600,31 @@ Partial Class MainForm
         Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.QuitToolStripMenuItem.Text = "Quit"
         '
+        'Label_MajorError
+        '
+        Me.Label_MajorError.AutoSize = True
+        Me.Label_MajorError.Location = New System.Drawing.Point(12, 490)
+        Me.Label_MajorError.Name = "Label_MajorError"
+        Me.Label_MajorError.Size = New System.Drawing.Size(0, 15)
+        Me.Label_MajorError.TabIndex = 2
+        Me.Label_MajorError.Visible = False
+        '
+        'CheckBox_ShowExecutedTasks
+        '
+        Me.CheckBox_ShowExecutedTasks.AutoSize = True
+        Me.CheckBox_ShowExecutedTasks.Location = New System.Drawing.Point(717, 31)
+        Me.CheckBox_ShowExecutedTasks.Name = "CheckBox_ShowExecutedTasks"
+        Me.CheckBox_ShowExecutedTasks.Size = New System.Drawing.Size(136, 19)
+        Me.CheckBox_ShowExecutedTasks.TabIndex = 4
+        Me.CheckBox_ShowExecutedTasks.Text = "Show executed Tasks"
+        Me.CheckBox_ShowExecutedTasks.UseVisualStyleBackColor = True
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(916, 505)
+        Me.Controls.Add(Me.Label_MajorError)
         Me.Controls.Add(Me.TabControl_Main)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximumSize = New System.Drawing.Size(932, 544)
@@ -620,6 +643,7 @@ Partial Class MainForm
         Me.ContextMenuStrip_LVPT.ResumeLayout(False)
         Me.ContextMenuStrip_Icon.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -681,4 +705,6 @@ Partial Class MainForm
     Friend WithEvents ToolStripMenuItem4 As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem5 As ToolStripMenuItem
     Friend WithEvents DeleteTaskToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents Label_MajorError As Label
+    Friend WithEvents CheckBox_ShowExecutedTasks As CheckBox
 End Class

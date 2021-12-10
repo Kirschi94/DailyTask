@@ -172,7 +172,7 @@ Public Class MainForm
         ListView_CurrentTasks.Items.Clear()
 
         For Each TheItem In ListOfTasks
-            If TheItem._Done = Stgs.Done Then
+            If TheItem._Done = Stgs.Done AndAlso CheckBox_ShowExecutedTasks.Checked = False Then
                 'Do nothing
             Else
                 If CheckBox_ShowNotToday.Checked = False AndAlso Not (TheItem.NextDue.Year = DateTime.Now.Year AndAlso TheItem.NextDue.DayOfYear = DateTime.Now.DayOfYear) Then
@@ -257,7 +257,7 @@ Public Class MainForm
         BuildListview_CurrentTasks()
     End Sub
 
-    Private Sub CheckBox_ShowExecutedTasks_CheckedChanged(sender As Object, e As EventArgs)
+    Private Sub CheckBox_ShowExecutedTasks_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_ShowExecutedTasks.CheckedChanged
         BuildListview_CurrentTasks()
     End Sub
 
@@ -465,11 +465,16 @@ Public Class MainForm
         Else
             Directory.CreateDirectory(Application.StartupPath & "\Tasks")
         End If
+        If Stgs.TaskShowMode = 0 Then
+            CheckBox_ShowExecutedTasks.Enabled = False
+            CheckBox_ShowExecutedTasks.Visible = False
+            CheckBox_ShowExecutedTasks.Checked = False
+        End If
         LoadListview_PastTasks()
         BuildListview_PastTasks()
     End Sub
 
-    Public Sub RefreshTheListviews()
+    Private Sub RefreshTheListviews()
         BuildListview_AllTasks()
         BuildListview_CurrentTasks()
         IconCheck()
@@ -483,39 +488,88 @@ Public Class MainForm
             End If
         Next
 
-        If Not LastCheck = Stgs.GetDayOfYearFormatted() Then
-            LastCheck = Stgs.GetDayOfYearFormatted()
-            RefreshListviews = True
-        End If
-
-        If RefreshListviews Then
-            For Each TheItem In ListOfTasks
-                If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
-                    ListOfPasts.Add(TheItem.Clone())
-                    TheItem.GetNextDue()
-                End If
-                If TheItem.OriginalDue < Date.Now AndAlso TheItem.NextDue > Date.Now Then
-                    Overdue = True
-                    ListOfOverdueTasks.Add(TheItem)
-                    AppIcon.Icon = My.Resources.Hell_kein_Schatten_hellblau
-                End If
-            Next
-            If Overdue Then
-                For Each TheItem In ListOfOverdueTasks
-                    If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
-                        ListOfPasts.Add(TheItem.Clone())
-                        TheItem.GetNextDue()
-                        ListOfOverdueTasks.Remove(TheItem)
-                    End If
-                Next
-                If ListOfOverdueTasks.Count <= 0 Then
-                    Overdue = False
-                    AppIcon.Icon = My.Resources.Hell_kein_Schatten
-                End If
-            End If
-        End If
+        CheckForTasks(Stgs.TaskShowMode)
 
         If RefreshListviews Then RefreshTheListviews()
+    End Sub
+
+    Private Sub CheckForTasks(Optional TaskShowMode As Short = 0)
+        Select Case TaskShowMode
+
+            Case 0
+                If Not LastCheck = Stgs.GetDayOfYearFormatted() Then
+                    LastCheck = Stgs.GetDayOfYearFormatted()
+                    RefreshListviews = True
+                End If
+
+                If RefreshListviews Then
+                    For Each TheItem In ListOfTasks
+                        If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                            ListOfPasts.Add(TheItem.Clone())
+                            TheItem.GetNextDue()
+                        End If
+                        If TheItem.OriginalDue < Date.Now AndAlso TheItem.NextDue > Date.Now Then
+                            Overdue = True
+                            ListOfOverdueTasks.Add(TheItem)
+                            AppIcon.Icon = My.Resources.Hell_kein_Schatten_hellblau
+                        End If
+                    Next
+                    If Overdue Then
+                        For Each TheItem In ListOfOverdueTasks
+                            If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                                ListOfPasts.Add(TheItem.Clone())
+                                TheItem.GetNextDue()
+                                ListOfOverdueTasks.Remove(TheItem)
+                            End If
+                        Next
+                        If ListOfOverdueTasks.Count <= 0 Then
+                            Overdue = False
+                            AppIcon.Icon = My.Resources.Hell_kein_Schatten
+                        End If
+                    End If
+                End If
+
+            Case 1
+                If (Not LastCheck = Stgs.GetDayOfYearFormatted()) OrElse Overdue Then
+                    'TheItem.OriginalDue.ToString("dd/MM/yyyy, HH:mm")
+                    For Each TheItem In ListOfTasks
+                        If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                            ListOfPasts.Add(TheItem.Clone())
+                            TheItem.GetNextDue()
+                        End If
+                        If TheItem.OriginalDue < Date.Now AndAlso TheItem.NextDue > Date.Now Then
+                            Overdue = True
+                            ListOfOverdueTasks.Add(TheItem)
+                            AppIcon.Icon = My.Resources.Hell_kein_Schatten_hellblau
+                        End If
+                    Next
+                    RefreshTheListviews()
+                End If
+                If Overdue Then
+                    For Each TheItem In ListOfOverdueTasks
+                        If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                            ListOfPasts.Add(TheItem.Clone())
+                            TheItem.GetNextDue()
+                            ListOfOverdueTasks.Remove(TheItem)
+                        End If
+                    Next
+                    If ListOfOverdueTasks.Count <= 0 Then
+                        Overdue = False
+                        AppIcon.Icon = My.Resources.Hell_kein_Schatten
+                    End If
+                Else
+                    If Not LastCheck = Stgs.GetDayOfYearFormatted() Then
+                        LastCheck = Stgs.GetDayOfYearFormatted()
+                        RefreshTheListviews()
+                    End If
+                End If
+
+            Case Else
+                'How tf did you even get here?!
+                Label_MajorError.Visible = True
+                Label_MajorError.Text = "You somehow made the tasks uncheckable. How?!"
+                Label_MajorError.ForeColor = Color.DarkRed
+        End Select
     End Sub
 
     Private Sub Remind(ByRef TheTask As DailyTask)

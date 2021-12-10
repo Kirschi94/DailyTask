@@ -5,6 +5,7 @@
     Public Shared ReadOnly Pending As String = "o"
 
     Public Shared ReadOnly PostponingInMinutes As Short = 5
+    Public Shared ReadOnly TaskShowMode As Short = 0
 
     Public Shared Function GetDayOfYearFormatted()
         Return DateTime.Now.ToString("yyyy") & ", " & DateTime.Now.DayOfYear.ToString
