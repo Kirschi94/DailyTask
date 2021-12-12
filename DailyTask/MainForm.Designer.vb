@@ -38,6 +38,7 @@ Partial Class MainForm
         Me.DeleteTaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabControl_Main = New System.Windows.Forms.TabControl()
         Me.CurrentTasks = New System.Windows.Forms.TabPage()
+        Me.CheckBox_ShowExecutedTasks = New System.Windows.Forms.CheckBox()
         Me.CheckBox_ShowNotToday = New System.Windows.Forms.CheckBox()
         Me.CreateNewTask = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -83,7 +84,6 @@ Partial Class MainForm
         Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label_MajorError = New System.Windows.Forms.Label()
-        Me.CheckBox_ShowExecutedTasks = New System.Windows.Forms.CheckBox()
         Me.ContextMenuStrip_LVCT.SuspendLayout()
         Me.TabControl_Main.SuspendLayout()
         Me.CurrentTasks.SuspendLayout()
@@ -200,6 +200,16 @@ Partial Class MainForm
         Me.CurrentTasks.TabIndex = 0
         Me.CurrentTasks.Text = "Current Tasks"
         Me.CurrentTasks.UseVisualStyleBackColor = True
+        '
+        'CheckBox_ShowExecutedTasks
+        '
+        Me.CheckBox_ShowExecutedTasks.AutoSize = True
+        Me.CheckBox_ShowExecutedTasks.Location = New System.Drawing.Point(717, 31)
+        Me.CheckBox_ShowExecutedTasks.Name = "CheckBox_ShowExecutedTasks"
+        Me.CheckBox_ShowExecutedTasks.Size = New System.Drawing.Size(136, 19)
+        Me.CheckBox_ShowExecutedTasks.TabIndex = 4
+        Me.CheckBox_ShowExecutedTasks.Text = "Show executed Tasks"
+        Me.CheckBox_ShowExecutedTasks.UseVisualStyleBackColor = True
         '
         'CheckBox_ShowNotToday
         '
@@ -586,18 +596,18 @@ Partial Class MainForm
         '
         Me.ContextMenuStrip_Icon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.QuitToolStripMenuItem})
         Me.ContextMenuStrip_Icon.Name = "ContextMenuStrip_Icon"
-        Me.ContextMenuStrip_Icon.Size = New System.Drawing.Size(104, 48)
+        Me.ContextMenuStrip_Icon.Size = New System.Drawing.Size(181, 70)
         '
         'ShowToolStripMenuItem
         '
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ShowToolStripMenuItem.Text = "Show"
         '
         'QuitToolStripMenuItem
         '
         Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'Label_MajorError
@@ -608,16 +618,6 @@ Partial Class MainForm
         Me.Label_MajorError.Size = New System.Drawing.Size(0, 15)
         Me.Label_MajorError.TabIndex = 2
         Me.Label_MajorError.Visible = False
-        '
-        'CheckBox_ShowExecutedTasks
-        '
-        Me.CheckBox_ShowExecutedTasks.AutoSize = True
-        Me.CheckBox_ShowExecutedTasks.Location = New System.Drawing.Point(717, 31)
-        Me.CheckBox_ShowExecutedTasks.Name = "CheckBox_ShowExecutedTasks"
-        Me.CheckBox_ShowExecutedTasks.Size = New System.Drawing.Size(136, 19)
-        Me.CheckBox_ShowExecutedTasks.TabIndex = 4
-        Me.CheckBox_ShowExecutedTasks.Text = "Show executed Tasks"
-        Me.CheckBox_ShowExecutedTasks.UseVisualStyleBackColor = True
         '
         'MainForm
         '

@@ -573,12 +573,14 @@ Public Class MainForm
     End Sub
 
     Private Sub Remind(ByRef TheTask As DailyTask)
-        If ReminderWindow.Open Then
+        If ReminderWindow.Open And Not ReminderWindow.Task.Equals(TheTask) Then
             TheTask.Postpone()
         Else
-            ReminderWindow.Task = TheTask
-            ReminderWindow.LoadIn()
-            ReminderWindow.Show()
+            If Not ReminderWindow.Open Then
+                ReminderWindow.Task = TheTask
+                ReminderWindow.LoadIn()
+                ReminderWindow.Show()
+            End If
         End If
     End Sub
 
