@@ -3,7 +3,7 @@ Public Class DailyTask
     Private _Description As String = Nothing
     Private _Time As String = Nothing
     Private _OriginalDue As DateTime = Nothing
-    Private _NextDue As DateTime = Nothing
+    Public _NextDue As DateTime = Nothing
     Private _Weekdays As Short() = Nothing
     Private _id As Integer = Nothing
     <JsonProperty("done")>
@@ -27,16 +27,6 @@ Public Class DailyTask
         End Get
         Private Set(value As String)
             _Time = value
-        End Set
-    End Property
-
-    <JsonProperty("nextdue")>
-    Public Property NextDue As DateTime
-        Get
-            Return _NextDue
-        End Get
-        Private Set(value As DateTime)
-            _NextDue = value
         End Set
     End Property
 

@@ -29,6 +29,7 @@ Public Class Reminder
         Task._Done = Stgs.Done
         MainForm.RefreshListviews = True
         OptionSet = True
+        Task._NextDue = DateAdd(DateInterval.Second, -1, DateTime.Now)
         Close()
     End Sub
 
@@ -36,6 +37,7 @@ Public Class Reminder
         Task._Done = Stgs.NotDone
         MainForm.RefreshListviews = True
         OptionSet = True
+        Task._NextDue = DateAdd(DateInterval.Second, -1, DateTime.Now)
         Close()
     End Sub
 

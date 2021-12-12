@@ -162,7 +162,7 @@ Public Class MainForm
 
         For Each TheItem In ListOfTasks
             With ListView_AllTasks.Items.Add(TheItem.Description)
-                .SubItems.Add(TheItem.NextDue.ToString("dd/MM/yyyy, HH:mm"))
+                .SubItems.Add(TheItem._NextDue.ToString("dd/MM/yyyy, HH:mm"))
                 .SubItems.Add(TheItem.ID)
             End With
         Next
@@ -175,7 +175,7 @@ Public Class MainForm
             If TheItem._Done = Stgs.Done AndAlso CheckBox_ShowExecutedTasks.Checked = False Then
                 'Do nothing
             Else
-                If CheckBox_ShowNotToday.Checked = False AndAlso Not (TheItem.NextDue.Year = DateTime.Now.Year AndAlso TheItem.NextDue.DayOfYear = DateTime.Now.DayOfYear) Then
+                If CheckBox_ShowNotToday.Checked = False AndAlso Not (TheItem._NextDue.Year = DateTime.Now.Year AndAlso TheItem._NextDue.DayOfYear = DateTime.Now.DayOfYear) Then
                     'Do nothing
                 Else
                     ListView_CurrentTasks.ShowGroups = CheckBox_ShowNotToday.Checked
@@ -219,7 +219,7 @@ Public Class MainForm
 
             With ListView_PastTasks.Items.Add(TheItem.Description)
                 .SubItems.Add(TheItem.OriginalDue.ToString("dd/MM/yyyy, HH:mm"))
-                .SubItems.Add(TheItem.NextDue.ToString("dd/MM/yyyy, HH:mm"))
+                .SubItems.Add(TheItem._NextDue.ToString("dd/MM/yyyy, HH:mm"))
                 .SubItems.Add(TheItem._Done)
                 .SubItems.Add(TheItem.ID)
                 If Not ListView_CurrentTasks.Groups.Contains(TempGroup) Then ListView_CurrentTasks.Groups.Add(TempGroup)
@@ -297,7 +297,7 @@ Public Class MainForm
             'MessageBox.Show("T2.3")
             BuildListview_AllTasks()
             'MessageBox.Show("T2.4")
-        ElseIf TheList.Equals(ListOfPasts) And TempTask.NextDue.Year > 2000 Then
+        ElseIf TheList.Equals(ListOfPasts) And TempTask._NextDue.Year > 2000 Then
             'MessageBox.Show("T3.1")
             If File.Exists(Application.StartupPath & "\The Past\" & TempTask.ID.ToString() & "_" & TempTask.OriginalDue.ToString("dd/MM/yyyy") & ".json") Then
                 File.Delete(Application.StartupPath & "\The Past\" & TempTask.ID.ToString() & "_" & TempTask.OriginalDue.ToString("dd/MM/yyyy") & ".json")
@@ -483,7 +483,7 @@ Public Class MainForm
 
     Private Sub Timer_CheckTasks_Tick(sender As Object, e As EventArgs) Handles Timer_CheckTasks.Tick
         For Each TheTask In ListOfTasks
-            If TheTask.NextDue <= Date.Now AndAlso TheTask._Done = Stgs.Pending Then
+            If TheTask._NextDue <= Date.Now AndAlso TheTask._Done = Stgs.Pending Then
                 Remind(TheTask)
             End If
         Next
@@ -504,11 +504,11 @@ Public Class MainForm
 
                 If RefreshListviews Then
                     For Each TheItem In ListOfTasks
-                        If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                        If TheItem._NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
                             ListOfPasts.Add(TheItem.Clone())
                             TheItem.GetNextDue()
                         End If
-                        If TheItem.OriginalDue < Date.Now AndAlso TheItem.NextDue > Date.Now Then
+                        If TheItem.OriginalDue < Date.Now AndAlso TheItem._NextDue > Date.Now Then
                             Overdue = True
                             ListOfOverdueTasks.Add(TheItem)
                             AppIcon.Icon = My.Resources.Hell_kein_Schatten_hellblau
@@ -516,7 +516,7 @@ Public Class MainForm
                     Next
                     If Overdue Then
                         For Each TheItem In ListOfOverdueTasks
-                            If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                            If TheItem._NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
                                 ListOfPasts.Add(TheItem.Clone())
                                 TheItem.GetNextDue()
                                 ListOfOverdueTasks.Remove(TheItem)
@@ -533,11 +533,11 @@ Public Class MainForm
                 If (Not LastCheck = Stgs.GetDayOfYearFormatted()) OrElse Overdue Then
                     'TheItem.OriginalDue.ToString("dd/MM/yyyy, HH:mm")
                     For Each TheItem In ListOfTasks
-                        If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                        If TheItem._NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
                             ListOfPasts.Add(TheItem.Clone())
                             TheItem.GetNextDue()
                         End If
-                        If TheItem.OriginalDue < Date.Now AndAlso TheItem.NextDue > Date.Now Then
+                        If TheItem.OriginalDue < Date.Now AndAlso TheItem._NextDue > Date.Now Then
                             Overdue = True
                             ListOfOverdueTasks.Add(TheItem)
                             AppIcon.Icon = My.Resources.Hell_kein_Schatten_hellblau
@@ -547,7 +547,7 @@ Public Class MainForm
                 End If
                 If Overdue Then
                     For Each TheItem In ListOfOverdueTasks
-                        If TheItem.NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
+                        If TheItem._NextDue < Date.Now AndAlso (Not TheItem._Done = Stgs.Pending) Then
                             ListOfPasts.Add(TheItem.Clone())
                             TheItem.GetNextDue()
                             ListOfOverdueTasks.Remove(TheItem)
