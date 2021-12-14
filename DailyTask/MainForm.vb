@@ -200,15 +200,15 @@ Public Class MainForm
 
     Private Sub LoadListview_PastTasks()
         ListOfPasts.Clear()
-        If Directory.Exists(Application.StartupPath & "\The Past") Then
-            Dim files() As String = Directory.GetFiles(Application.StartupPath & "\The Past")
+        If Directory.Exists(Application.StartupPath & "The Past") Then
+            Dim files() As String = Directory.GetFiles(Application.StartupPath & "The Past")
             For Each file As String In files
                 Dim TempTask As DailyTask = GetDataFromJsonFile(file)
                 'TempTask.GetNextDue()
                 ListOfPasts.Add(TempTask)
             Next
         Else
-            Directory.CreateDirectory(Application.StartupPath & "\The Past")
+            Directory.CreateDirectory(Application.StartupPath & "The Past")
         End If
     End Sub
 
@@ -289,8 +289,8 @@ Public Class MainForm
         'MessageBox.Show("T1")
         If TheList.Equals(ListOfTasks) Then
             'MessageBox.Show("T2.1")
-            If File.Exists(Application.StartupPath & "\Tasks\" & ID.ToString() & ".json") Then
-                File.Delete(Application.StartupPath & "\Tasks\" & ID.ToString() & ".json")
+            If File.Exists(Application.StartupPath & "Tasks\" & ID.ToString() & ".json") Then
+                File.Delete(Application.StartupPath & "Tasks\" & ID.ToString() & ".json")
             End If
             'MessageBox.Show("T2.2")
             BuildListview_CurrentTasks()
@@ -299,8 +299,8 @@ Public Class MainForm
             'MessageBox.Show("T2.4")
         ElseIf TheList.Equals(ListOfPasts) And TempTask._NextDue.Year > 2000 Then
             'MessageBox.Show("T3.1")
-            If File.Exists(Application.StartupPath & "\The Past\" & TempTask.ID.ToString() & "_" & TempTask.OriginalDue.ToString("dd/MM/yyyy") & ".json") Then
-                File.Delete(Application.StartupPath & "\The Past\" & TempTask.ID.ToString() & "_" & TempTask.OriginalDue.ToString("dd/MM/yyyy") & ".json")
+            If File.Exists(Application.StartupPath & "The Past\" & TempTask.ID.ToString() & "_" & TempTask.OriginalDue.ToString("dd/MM/yyyy") & ".json") Then
+                File.Delete(Application.StartupPath & "The Past\" & TempTask.ID.ToString() & "_" & TempTask.OriginalDue.ToString("dd/MM/yyyy") & ".json")
                 'Application.StartupPath & "\The Past\" & task.ID.ToString() & "_" & task.OriginalDue.ToString("dd/MM/yyyy") & ".json", task.ToJson()
             End If
             'MessageBox.Show("T3.2")
@@ -422,7 +422,9 @@ Public Class MainForm
     End Sub
 
     Private Function GetDataFromJsonFile(FilePath As String)
-        Dim rawJson = File.ReadAllText(FilePath)
+        MessageBox.Show("FP: " & FilePath)
+        Dim rawJson As String = File.ReadAllText(FilePath)
+        'MessageBox.Show("rJ: " & rawJson)
         Return ToClass(Of DailyTask)(rawJson)
     End Function
 
@@ -432,18 +434,18 @@ Public Class MainForm
 
     Private Sub MainForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If Closable Then
-            If Not Directory.Exists(Application.StartupPath & "\Tasks") Then
-                Directory.CreateDirectory(Application.StartupPath & "\Tasks")
+            If Not Directory.Exists(Application.StartupPath & "Tasks") Then
+                Directory.CreateDirectory(Application.StartupPath & "Tasks")
             End If
             For Each task As DailyTask In ListOfTasks
-                File.WriteAllText(Application.StartupPath & "\Tasks\" & task.ID.ToString() & ".json", task.ToJson())
+                File.WriteAllText(Application.StartupPath & "Tasks\" & task.ID.ToString() & ".json", task.ToJson())
             Next
 
-            If Not Directory.Exists(Application.StartupPath & "\The Past") Then
-                Directory.CreateDirectory(Application.StartupPath & "\The Past")
+            If Not Directory.Exists(Application.StartupPath & "The Past") Then
+                Directory.CreateDirectory(Application.StartupPath & "The Past")
             End If
             For Each task As DailyTask In ListOfPasts
-                File.WriteAllText(Application.StartupPath & "\The Past\" & task.ID.ToString() & "_" & task.OriginalDue.ToString("dd/MM/yyyy") & ".json", task.ToJson())
+                File.WriteAllText(Application.StartupPath & "The Past\" & task.ID.ToString() & "_" & task.OriginalDue.ToString("dd/MM/yyyy") & ".json", task.ToJson())
             Next
         Else
             e.Cancel = True
@@ -453,25 +455,36 @@ Public Class MainForm
     End Sub
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If Directory.Exists(Application.StartupPath & "\Tasks") Then
-            Dim files() As String = Directory.GetFiles(Application.StartupPath & "\Tasks")
+        If Directory.Exists(Application.StartupPath & "Tasks") Then
+            Dim files() As String = Directory.GetFiles(Application.StartupPath & "Tasks")
             For Each file As String In files
+                'MessageBox.Show("file: " & file)
                 Dim TempTask As DailyTask = GetDataFromJsonFile(file)
+                'MessageBox.Show("Piepha")
                 TempTask.GetNextDue()
+                'MessageBox.Show("Piephahn")
                 ListOfTasks.Add(TempTask)
+                'MessageBox.Show("Piephahn2")
+                'MessageBox.Show("Desc: " & TempTask.Description & vbCrLf & "Original: " & TempTask.OriginalDue.ToString("dd/MM/yyyy, HH:mm") & vbCrLf & "Next: " & TempTask._NextDue.ToString("dd/MM/yyyy, HH:mm"))
             Next
+            'MessageBox.Show("A")
             BuildListview_AllTasks()
+            'MessageBox.Show("B")
             BuildListview_CurrentTasks()
+            'MessageBox.Show("C")
         Else
-            Directory.CreateDirectory(Application.StartupPath & "\Tasks")
+            Directory.CreateDirectory(Application.StartupPath & "Tasks")
         End If
         If Stgs.TaskShowMode = 0 Then
             CheckBox_ShowExecutedTasks.Enabled = False
             CheckBox_ShowExecutedTasks.Visible = False
             CheckBox_ShowExecutedTasks.Checked = False
         End If
+        'MessageBox.Show("D")
         LoadListview_PastTasks()
+        'MessageBox.Show("E")
         BuildListview_PastTasks()
+        'MessageBox.Show("F")
     End Sub
 
     Private Sub RefreshTheListviews()
@@ -573,7 +586,7 @@ Public Class MainForm
     End Sub
 
     Private Sub Remind(ByRef TheTask As DailyTask)
-        If ReminderWindow.Open AndAlso (Not ReminderWindow.Task Is Nothing AndAlso Not ReminderWindow.Task.Equals(TheTask)) Then
+        If ReminderWindow.Open AndAlso (ReminderWindow.Task IsNot Nothing AndAlso Not ReminderWindow.Task.Equals(TheTask)) Then
             TheTask.Postpone()
         Else
             If Not ReminderWindow.Open Then
