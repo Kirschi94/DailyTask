@@ -22,14 +22,13 @@ Public Module JsonHelper
                                                         As T
 
         Dim response = Nothing
-        MessageBox.Show("response1: " & response)
-        MessageBox.Show("data1: " & data)
+
         If Not String.IsNullOrEmpty(data) Then
             response = If(jsonSettings Is Nothing,
-                JsonConvert.DeserializeObject(Of T)(data),
-                JsonConvert.DeserializeObject(Of T)(data, jsonSettings))
+            response = JsonConvert.DeserializeObject(Of T)(data),
+            JsonConvert.DeserializeObject(Of T)(data, jsonSettings))
         End If
-        MessageBox.Show("data2: " & data)
+
         Return response
 
     End Function
