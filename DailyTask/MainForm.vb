@@ -204,7 +204,7 @@ Public Class MainForm
             Dim files() As String = Directory.GetFiles(Application.StartupPath & "The Past")
             For Each file As String In files
                 Dim TempTask As DailyTask = GetDataFromJsonFile(file)
-                TempTask.GetNextDue()
+                'TempTask.GetNextDue()
                 ListOfPasts.Add(TempTask)
             Next
         Else
@@ -303,7 +303,9 @@ Public Class MainForm
 
     Private Sub MarkAsDoneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsDoneToolStripMenuItem.Click
         Try
-            MarkAs(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), Stgs.Done, ListOfTasks)
+            For Each TheItem In ListView_CurrentTasks.SelectedItems
+                MarkAs(Int(TheItem.Item(3).Text), Stgs.Done, ListOfTasks)
+            Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try
@@ -311,7 +313,9 @@ Public Class MainForm
 
     Private Sub MarkAsXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsXToolStripMenuItem.Click
         Try
-            MarkAs(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), Stgs.NotDone, ListOfTasks)
+            For Each TheItem In ListView_CurrentTasks.SelectedItems
+                MarkAs(Int(TheItem.SubItems.Item(3).Text), Stgs.NotDone, ListOfTasks)
+            Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try
@@ -319,7 +323,9 @@ Public Class MainForm
 
     Private Sub MarkAsQMToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsQMToolStripMenuItem.Click
         Try
-            MarkAs(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), Stgs.Unclear, ListOfTasks)
+            For Each TheItem In ListView_CurrentTasks.SelectedItems
+                MarkAs(Int(TheItem.SubItems.Item(3).Text), Stgs.Unclear, ListOfTasks)
+            Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try
@@ -327,7 +333,9 @@ Public Class MainForm
 
     Private Sub MarkAsUnfulfilledToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsUnfulfilledToolStripMenuItem.Click
         Try
-            MarkAs(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), Stgs.Pending, ListOfTasks)
+            For Each TheItem In ListView_CurrentTasks.SelectedItems
+                MarkAs(Int(TheItem.SubItems.Item(3).Text), Stgs.Pending, ListOfTasks)
+            Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try
@@ -338,9 +346,11 @@ Public Class MainForm
     End Sub
 
     Private Sub DeleteTaskToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteTaskToolStripMenuItem.Click
-        If MessageBox.Show(Me, "Are you sure you want to delete the selected task?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+        If MessageBox.Show(Me, "Are you sure you want to delete the selected task/s?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
             Try
-                DeleteTask(Int(ListView_CurrentTasks.SelectedItems.Item(0).SubItems.Item(3).Text), ListOfTasks)
+                For Each TheItem In ListView_CurrentTasks.SelectedItems
+                    DeleteTask(Int(TheItem.SubItems.Item(3).Text), ListOfTasks)
+                Next
             Catch ex As Exception
                 MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
             End Try
@@ -594,9 +604,11 @@ Public Class MainForm
     End Sub
 
     Private Sub DeleteTaskToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DeleteTaskToolStripMenuItem1.Click
-        If MessageBox.Show(Me, "Are you sure you want to delete the selected task?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+        If MessageBox.Show(Me, "Are you sure you want to delete the selected task/s?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
             Try
-                DeleteTask(Int(ListView_AllTasks.SelectedItems.Item(0).SubItems.Item(2).Text), ListOfTasks)
+                For Each TheItem In ListView_AllTasks.SelectedItems
+                    DeleteTask(Int(TheItem.SubItems.Item(2).Text), ListOfTasks)
+                Next
             Catch ex As Exception
                 MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
             End Try
@@ -604,9 +616,11 @@ Public Class MainForm
     End Sub
 
     Private Sub DeleteTaskToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles DeleteTaskToolStripMenuItem2.Click
-        If MessageBox.Show(Me, "Are you sure you want to delete the selected task?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+        If MessageBox.Show(Me, "Are you sure you want to delete the selected task/s?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
             Try
-                DeleteTask(Int(ListView_PastTasks.SelectedItems.Item(0).SubItems.Item(4).Text), ListOfPasts)
+                For Each TheItem In ListView_PastTasks.SelectedItems
+                    DeleteTask(Int(TheItem.SubItems.Item(4).Text), ListOfPasts)
+                Next
             Catch ex As Exception
                 MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
             End Try
@@ -615,7 +629,9 @@ Public Class MainForm
 
     Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
         Try
-            MarkAs(Int(ListView_PastTasks.SelectedItems.Item(0).SubItems.Item(4).Text), Stgs.Done, ListOfPasts)
+            For Each TheItem In ListView_PastTasks.SelectedItems
+                MarkAs(Int(TheItem.SubItems.Item(4).Text), Stgs.Done, ListOfPasts)
+            Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try
@@ -623,7 +639,9 @@ Public Class MainForm
 
     Private Sub ToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem3.Click
         Try
-            MarkAs(Int(ListView_PastTasks.SelectedItems.Item(0).SubItems.Item(4).Text), Stgs.NotDone, ListOfPasts)
+            For Each TheItem In ListView_PastTasks.SelectedItems
+                MarkAs(Int(TheItem.SubItems.Item(4).Text), Stgs.NotDone, ListOfPasts)
+            Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try
@@ -631,7 +649,9 @@ Public Class MainForm
 
     Private Sub ToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem4.Click
         Try
-            MarkAs(Int(ListView_PastTasks.SelectedItems.Item(0).SubItems.Item(4).Text), Stgs.Unclear, ListOfPasts)
+            For Each TheItem In ListView_PastTasks.SelectedItems
+                MarkAs(Int(TheItem.SubItems.Item(4).Text), Stgs.Unclear, ListOfPasts)
+            Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try
@@ -639,7 +659,9 @@ Public Class MainForm
 
     Private Sub ToolStripMenuItem5_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem5.Click
         Try
-            MarkAs(Int(ListView_PastTasks.SelectedItems.Item(0).SubItems.Item(4).Text), Stgs.Pending, ListOfPasts)
+            For Each TheItem In ListView_PastTasks.SelectedItems
+                MarkAs(Int(TheItem.SubItems.Item(4).Text), Stgs.Pending, ListOfPasts)
+            Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
         End Try

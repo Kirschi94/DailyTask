@@ -101,7 +101,6 @@ Partial Class MainForm
         Me.ListView_CurrentTasks.ContextMenuStrip = Me.ContextMenuStrip_LVCT
         Me.ListView_CurrentTasks.HideSelection = False
         Me.ListView_CurrentTasks.Location = New System.Drawing.Point(6, 6)
-        Me.ListView_CurrentTasks.MultiSelect = False
         Me.ListView_CurrentTasks.Name = "ListView_CurrentTasks"
         Me.ListView_CurrentTasks.Size = New System.Drawing.Size(705, 441)
         Me.ListView_CurrentTasks.TabIndex = 0
@@ -596,18 +595,18 @@ Partial Class MainForm
         '
         Me.ContextMenuStrip_Icon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.QuitToolStripMenuItem})
         Me.ContextMenuStrip_Icon.Name = "ContextMenuStrip_Icon"
-        Me.ContextMenuStrip_Icon.Size = New System.Drawing.Size(181, 70)
+        Me.ContextMenuStrip_Icon.Size = New System.Drawing.Size(104, 48)
         '
         'ShowToolStripMenuItem
         '
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.ShowToolStripMenuItem.Text = "Show"
         '
         'QuitToolStripMenuItem
         '
         Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'Label_MajorError

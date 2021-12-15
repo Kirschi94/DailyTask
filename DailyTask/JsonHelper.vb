@@ -25,7 +25,7 @@ Public Module JsonHelper
 
         If Not String.IsNullOrEmpty(data) Then
             response = If(jsonSettings Is Nothing,
-            response = JsonConvert.DeserializeObject(Of T)(data),
+            JsonConvert.DeserializeObject(Of T)(data),
             JsonConvert.DeserializeObject(Of T)(data, jsonSettings))
         End If
 
