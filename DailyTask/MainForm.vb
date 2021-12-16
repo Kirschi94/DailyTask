@@ -304,7 +304,7 @@ Public Class MainForm
     Private Sub MarkAsDoneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MarkAsDoneToolStripMenuItem.Click
         Try
             For Each TheItem In ListView_CurrentTasks.SelectedItems
-                MarkAs(Int(TheItem.Item(3).Text), Stgs.Done, ListOfTasks)
+                MarkAs(Int(TheItem.SubItems.Item(3).Text), Stgs.Done, ListOfTasks)
             Next
         Catch ex As Exception
             MessageBox.Show(Me, "The following error just occurred: " & ex.Message, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)

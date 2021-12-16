@@ -71,6 +71,8 @@ Public Class DailyTask
         _Done = Done
         If _Weekdays Is Nothing Then _Weekdays = New Short() {1, 1, 1, 1, 1, 1, 1}
 
+        'MessageBox.Show(_OriginalDue.ToString("dd/MM/yyyy, HH:mm"))
+
         Dim Times As String() = Time.Split(":")
         Dim Due As New DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Int(Times.GetValue(0)), Int(Times.GetValue(1)), 0)
         If Done Is Nothing Then
