@@ -91,10 +91,12 @@ Public Class DailyTask
     End Sub
 
     Public Sub GetNextDue()
-        If DateTime.Now > _NextDue OrElse _Weekdays.GetValue(DateTime.Now.DayOfWeek) = 0 Then
+        If DateTime.Now > _NextDue OrElse _Weekdays.GetValue(DateTime.Now.DayOfWeek) = 0 OrElse _NextDue < _OriginalDue Then
+            Dim Extrarun As Boolean = _NextDue < _OriginalDue
             _NextDue = OriginalDue
-            While DateTime.Now > _NextDue OrElse _Weekdays.GetValue(_NextDue.DayOfWeek) = 0
+            While DateTime.Now > _NextDue OrElse _Weekdays.GetValue(_NextDue.DayOfWeek) = 0 OrElse Extrarun
                 _NextDue = DateAdd(DateInterval.Day, 1, _NextDue)
+                Extrarun = False
             End While
             _OriginalDue = _NextDue
         End If

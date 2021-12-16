@@ -265,6 +265,10 @@ Public Class MainForm
         For Each TheItem In TheList
             If TheItem.ID = ID Then
                 TheItem._Done = TheValue
+                If Not TheList.Equals(ListOfPasts) AndAlso TheValue = Stgs.Done Then
+                    RefreshListviews = True
+                    TheItem._NextDue = DateAdd(DateInterval.Second, -1, DateTime.Now)
+                End If
                 Exit For
             End If
         Next
